@@ -1,0 +1,122 @@
+/* Add this CSS to your stylesheet */
+
+.left-bar {
+    background-color: #182d56; /* Adjust the background color */
+    color: #ecf0f1; /* Adjust the text color */
+    width: 250px; /* Adjust the width of the navbar */
+    height: 100%; /* Adjust the height of the navbar */
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    font-size: 20px;
+
+}
+
+.left-bar ul {
+    list-style-type: none;
+    margin: 0;
+    
+}
+
+.left-bar a {
+    text-decoration: none;
+    color: #ecf0f1;
+    display: block;
+    padding: 15px 20px;
+    transition: background-color 0.3s;
+    
+}
+
+.left-bar a:hover {
+    background-color: #2c3e50; /* Adjust the background color on hover */
+}
+
+.left-bar i {
+    margin-right: 10px;
+}
+
+.sub-menu {
+    padding-left: 20px;
+    display: none;
+}
+
+.sub-menu a {
+    color: #ecf0f1;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+    transition: background-color 0.3s;
+}
+
+.sub-menu a:hover {
+    background-color: #2c3e50; /* Adjust the background color on hover */
+}
+
+.left-bar ul ul {
+    display: none;
+}
+
+.left-bar li:hover > ul {
+    display: block;
+}
+
+.left-bar a {
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    padding: 10px 15px;
+}
+
+.left-bar li {
+    position: relative;
+}
+
+.left-bar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.left-bar > ul > li {
+    border-bottom: 1px solid #4d4d4d;
+}
+
+.left-bar > ul > li:last-child {
+    border-bottom: none;
+}
+
+.left-bar i {
+    margin-right: 10px;
+}
+
+.left-bar li:hover {
+    background-color: #4d4d4d;
+}
+
+.sub-menu {
+    padding-left: 20px;
+    display: none;
+}
+
+.sub-menu li {
+    padding: 10px 0;
+    border-bottom: 1px solid #4d4d4d;
+}
+
+.sub-menu li:last-child {
+    border-bottom: none;
+}
+
+.sub-menu li:hover {
+    background-color: #4d4d4d;
+}
+
+.li-head div{ 
+    color: #ffffff;
+    background-color: #182d56;
+    padding: 2%;
+}
+.li-head{
+    padding: 2%;
+    width: 100%;
+}

@@ -1,0 +1,22 @@
+/* Add this CSS to your stylesheet */
+
+/* Add this CSS to your stylesheet */
+
+.app-container {
+    display: flex;
+}
+
+.left-bar {
+    background-color: #283593;
+    color: #ffffff;
+    width: 200px;
+    padding-top: 20px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 200px; /* Adjust the margin to be the same as the left-bar width */
+    box-sizing: border-box;
+}
+
