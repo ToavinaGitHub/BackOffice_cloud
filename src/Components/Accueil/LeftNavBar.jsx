@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '../assets/Accueil/LeftNavBar.css';
 import "../assets/bootstrap.min.css";
 
+import sary from "../assets/Accounts/images/log.jpg";
 
 const LeftNavBar = () => {
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -16,6 +17,13 @@ const LeftNavBar = () => {
     return (
         <div className="left-bar">
             <ul>
+                <li className='li-head logo'>
+                        <div >
+                            <i className="fas fa-scroll"></i>
+                            <span><img src={sary} className="logo-img"></img></span>
+                            <span>Bônôkany</span>
+                        </div>
+                </li>
                 <li className='li-head'>
                     <div 
                         className={`nav-link ${activeDropdown === 'statistique' ? 'active' : ''}`  }
@@ -42,12 +50,12 @@ const LeftNavBar = () => {
                         <ul className="sub-menu">
                             <a href="/CrudCategorie"><li>Categorie</li></a>
                             <a href="/CrudMarque"><li>Marque</li></a>
-                            <a href="/CrudCategorie"><li>Moteur</li></a>
+                            <a href="/CrudMoteur"><li>Moteur</li></a>
                             <a href="/CrudCategorie"><li>Moteur Modele</li></a>
                             <a href="/CrudCategorie"><li>Année Modele</li></a>
                             <a href="/CrudCategorie"><li>Modele</li></a>
-                            <a href="/CrudCategorie"><li>Transmission</li></a>
-                            <a href="/CrudCategorie"><li>Carburant</li></a>
+                            <a href="/CrudTransmission"><li>Transmission</li></a>
+                            <a href="/CrudCarburant"><li>Carburant</li></a>
                         </ul>
                     )}
                 </li>
@@ -66,7 +74,6 @@ const LeftNavBar = () => {
                     )}
                 </li>
             </ul>
-        
         </div>
     );
 };

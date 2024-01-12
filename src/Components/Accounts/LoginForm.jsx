@@ -15,11 +15,11 @@ class LoginForm extends React.Component{
                     <img src={sary} alt="Login" className="login-image" />
                     <div className="login-form">
                         <h2>Login</h2>
-                        <form>
+                        <form action="/Accueil" method="get">
                             <label>Email</label>
-                            <input type="text" placeholder="Username" required />
+                            <input type="text" placeholder="Username" value="client@gmail.com" required />
                             <label>Password</label>
-                            <input type="password" placeholder="Password" required />
+                            <input type="password" placeholder="Password"  value="client" required />
                             <button type="submit">Login</button>
                         </form>
                     </div>
