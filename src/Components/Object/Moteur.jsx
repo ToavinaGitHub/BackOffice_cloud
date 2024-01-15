@@ -1,32 +1,32 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
 
-class Categorie extends Component {
+class Moteur extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCategorie: [], ///////
+      currentMoteur: [], ///////
       currentPage: null,
       totalPages: null,
       totalItems: null,
       view: "list",
-      allCategorie: [], ///////
+      allMoteur: [], ///////
       pageLimit:3,
     };
   }
   
   componentDidMount() {
-    this.fetchCategorieData(); ///////
+    this.fetchMoteurData(); ///////
   }
 
-  fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories") ///////
+  fetchMoteurData = () => { ///////
+    fetch("http://localhost:8080/moteurs") ///////
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
         const resultat =Math.abs(Math.ceil(tot / this.state.pageLimit));
         this.setState({totalItems: tot});
-        this.setState({ allCategorie: data, totalItems: tot }, () => { ///////
+        this.setState({ allMoteur: data, totalItems: tot }, () => { ///////
           this.onPageChanged({ currentPage: 1, pageLimit: this.state.pageLimit, totalPages: resultat , totalRecords:tot});
         });
       })
@@ -42,14 +42,14 @@ class Categorie extends Component {
 
     const offset = (currentPage - 1) * pageLimit;
     
-    this.setState({totalItems: this.state.allCategorie.length}); ///////
+    this.setState({totalItems: this.state.allMoteur.length}); ///////
  
-    const currentCategorie = this.state.allCategorie.slice( ///////
+    const currentMoteur /*///*/  = this.state.allMoteur.slice( ///////
       offset,
       offset + pageLimit
     );
     
-    this.setState({ currentPage, currentCategorie, totalPages }); ///////
+    this.setState({ currentPage, currentMoteur, totalPages }); ///////
   };
 
   render() {
@@ -57,7 +57,7 @@ class Categorie extends Component {
       <>
         <div className="insertion">
           <form className="crud-form">
-            <label>Marque</label>
+            <label>Moteur</label>
             <input name="nom" />
             <button type="submit">Inserer</button>
           </form>
@@ -66,13 +66,13 @@ class Categorie extends Component {
           <table className="table">
               <tr>
                 <th>Id</th>
-                <th>Categorie</th>
+                <th>Moteur</th>
                 <th>Actions</th>
               </tr>
-              {this.state.currentCategorie.map((categorie) => ( ///////
-                <tr key={categorie.idCategorie}>
-                  <td>{categorie.idCategorie}</td>
-                  <td>{categorie.nomCategorie}</td>
+              {this.state.currentMoteur.map((moteur) => ( ///////
+                <tr key={moteur.idMoteur}>
+                  <td>{moteur.idMoteur}</td>
+                  <td>{moteur.nomMoteur}</td>
                   <td className="actions">
                     <button className="btn btn-danger">Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
@@ -97,4 +97,4 @@ class Categorie extends Component {
   }
 }
 
-export default Categorie;
+export default Moteur;

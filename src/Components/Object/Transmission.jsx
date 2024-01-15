@@ -1,32 +1,32 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
 
-class Categorie extends Component {
+class Transmission extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCategorie: [], ///////
+      currentTrans: [],
       currentPage: null,
       totalPages: null,
       totalItems: null,
       view: "list",
-      allCategorie: [], ///////
+      allTrans: [],
       pageLimit:3,
     };
   }
   
   componentDidMount() {
-    this.fetchCategorieData(); ///////
+    this.fetchTransmissionData();
   }
 
-  fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories") ///////
+  fetchTransmissionData = () => {
+    fetch("http://localhost:8080/transmissions")
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
         const resultat =Math.abs(Math.ceil(tot / this.state.pageLimit));
         this.setState({totalItems: tot});
-        this.setState({ allCategorie: data, totalItems: tot }, () => { ///////
+        this.setState({ allTrans: data, totalItems: tot }, () => {
           this.onPageChanged({ currentPage: 1, pageLimit: this.state.pageLimit, totalPages: resultat , totalRecords:tot});
         });
       })
@@ -42,14 +42,14 @@ class Categorie extends Component {
 
     const offset = (currentPage - 1) * pageLimit;
     
-    this.setState({totalItems: this.state.allCategorie.length}); ///////
- 
-    const currentCategorie = this.state.allCategorie.slice( ///////
+    this.setState({totalItems: this.state.allTrans.length});
+    console.log(page);
+    const currentTrans = this.state.allTrans.slice(
       offset,
       offset + pageLimit
     );
     
-    this.setState({ currentPage, currentCategorie, totalPages }); ///////
+    this.setState({ currentPage, currentTrans, totalPages });
   };
 
   render() {
@@ -57,7 +57,7 @@ class Categorie extends Component {
       <>
         <div className="insertion">
           <form className="crud-form">
-            <label>Marque</label>
+            <label>Transmission</label>
             <input name="nom" />
             <button type="submit">Inserer</button>
           </form>
@@ -66,13 +66,13 @@ class Categorie extends Component {
           <table className="table">
               <tr>
                 <th>Id</th>
-                <th>Categorie</th>
+                <th>Transmission</th>
                 <th>Actions</th>
               </tr>
-              {this.state.currentCategorie.map((categorie) => ( ///////
-                <tr key={categorie.idCategorie}>
-                  <td>{categorie.idCategorie}</td>
-                  <td>{categorie.nomCategorie}</td>
+              {this.state.currentTrans.map((trans) => (
+                <tr key={trans.idTransmission}>
+                  <td>{trans.idTransmission}</td>
+                  <td>{trans.nomTransmission}</td>
                   <td className="actions">
                     <button className="btn btn-danger">Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
@@ -97,4 +97,4 @@ class Categorie extends Component {
   }
 }
 
-export default Categorie;
+export default Transmission;

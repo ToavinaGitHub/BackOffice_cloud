@@ -1,7 +1,7 @@
 /* Add this CSS to your stylesheet */
 
 .left-bar {
-    background-color: #182d56; /* Adjust the background color */
+    background-color: #364156; /* Adjust the background color */
     color: #ecf0f1; /* Adjust the text color */
     width: 250px; /* Adjust the width of the navbar */
     height: 100%; /* Adjust the height of the navbar */
@@ -10,7 +10,7 @@
     flex-direction: column;
     padding-top: 20px;
     font-size: 20px;
-
+    cursor: pointer;
 }
 
 .left-bar ul {
@@ -119,4 +119,30 @@
 .li-head{
     padding: 2%;
     width: 100%;
+    margin-top: 20px;
+}
+
+.logo{
+    margin-bottom: 40px;
+    height: 75px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    
+}
+
+.logo div{
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    height: 75px;
+    width: 100%;
+}
+
+.logo-img{
+    height: 70px;
+    width: 70px;
+    margin: 0;
+    padding: 0;
 }

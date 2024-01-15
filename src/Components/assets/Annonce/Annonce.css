@@ -1,0 +1,105 @@
+/* Annonce.css */
+.annonce-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.image-section {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.other-images {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+}
+
+.other-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 8px;
+  border-radius: 4px;
+}
+
+.info-section {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.description {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.car-details {
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 24px;
+  color: white;
+  background-color: #ffc107;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.publisher {
+  color: #777;
+}
+
+.button-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.accept-button,
+.refuse-button {
+  color: black;
+  border: 1px solid green;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.refuse-button {
+  border: 1px solid red;
+}
+
+.refuse-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.accept-button:hover {
+  background-color: green;
+  color: white;
+}
+
