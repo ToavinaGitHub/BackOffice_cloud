@@ -11,6 +11,10 @@ import Marque from './Components/Object/Marque';
 import Transmission from './Components/Object/Transmission';
 import Moteur  from './Components/Object/Moteur';
 import Carburant from './Components/Object/Carburant';
+import AnnonceTempl from "./Components/Annonce/AnnonceTempl"
+import Modele  from './Components/Object/Modele';
+import MoteurModele from './Components/Object/MoteurModele';
+import AnneeModele from './Components/Object/AnneeModele';
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
           <Route exact path="/CrudTransmission" element={<Layout><CrudObject  title="Transmission" obj={<Transmission />} /></Layout>} />
           <Route exact path="/CrudMoteur" element={<Layout><CrudObject  title="Moteur" obj={<Moteur />} /></Layout>} />
           <Route exact path="/CrudCarburant" element={<Layout><CrudObject  title="Carburant" obj={<Carburant />} /></Layout>} />
+          <Route exact path="/ValiderAnnonce" element={<Layout><AnnonceTempl  title="Valider Annonce" /></Layout>} />
+          <Route exact path="/modele" element={<Layout><CrudObject  title="Modele" obj={<Modele />} /></Layout>} />
+          <Route exact path="/moteurModele" element={<Layout><CrudObject  title="Moteur modele" obj={<MoteurModele />} /></Layout>} />
+          <Route exact path="/anneeModele" element={<Layout><CrudObject  title="Année modele" obj={<AnneeModele />} /></Layout>} />
         </Routes>
    </BrowserRouter>
   );

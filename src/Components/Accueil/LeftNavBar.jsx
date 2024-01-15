@@ -51,11 +51,11 @@ const LeftNavBar = () => {
                             <a href="/CrudCategorie"><li>Categorie</li></a>
                             <a href="/CrudMarque"><li>Marque</li></a>
                             <a href="/CrudMoteur"><li>Moteur</li></a>
-                            <a href="/CrudCategorie"><li>Moteur Modele</li></a>
-                            <a href="/CrudCategorie"><li>Année Modele</li></a>
-                            <a href="/CrudCategorie"><li>Modele</li></a>
+                            <a href="/anneeModele"><li>Année Modele</li></a>
+                            <a href="/modele"><li>Modele</li></a>
                             <a href="/CrudTransmission"><li>Transmission</li></a>
                             <a href="/CrudCarburant"><li>Carburant</li></a>
+                            <a href="/moteurModele"><li>Moteur Modele</li></a>
                         </ul>
                     )}
                 </li>
@@ -69,7 +69,7 @@ const LeftNavBar = () => {
                     </div>
                     {activeDropdown === 'annonces' && (
                         <ul className="sub-menu">
-                            <li>Validation annonce</li>
+                            <a href="/ValiderAnnonce"><li>Valider Annonce</li></a>
                         </ul>
                     )}
                 </li>
