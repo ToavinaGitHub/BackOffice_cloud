@@ -36,6 +36,8 @@ class Annonce extends Component {
     
 
     const { currentImage } = this.state;
+
+
    
     return (
       <div className="annonce-card">
