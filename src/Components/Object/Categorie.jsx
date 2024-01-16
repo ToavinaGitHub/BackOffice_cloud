@@ -12,7 +12,10 @@ class Categorie extends Component {
       view: "list",
       allCategorie: [], ///////
       pageLimit:3,
+      nomCategorie:''//
     };
+    this.handleSubmit = this.handleSubmit.bind(this);//
+
   }
   
   componentDidMount() {
@@ -51,14 +54,55 @@ class Categorie extends Component {
     
     this.setState({ currentPage, currentCategorie, totalPages }); ///////
   };
+  
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });//
+    }
+    async handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nomCateg = formData.get("nomCategorie");//
+        
+
+        let url ='http://localhost:8080/categorie?nom='+nomCateg;//
+
+        await fetch(url , {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomCateg }) //
+        }).then(()=>{
+            const newItem = {nomCateg};//
+            this.setState({ allCarburant: [...this.state.allCategorie, newItem] });//
+            window.location.reload();
+        });
+    }
+    async remove(id){
+        console.log("miditra");
+        let url = 'http://localhost:8080/categorie/'+id; //
+        await fetch(url,{
+            method:'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(()=>{
+            let updated = [...this.state.allCategorie].filter(i => i.id !== id);//
+            this.setState({allCategorie: updated}); //
+            window.location.reload();
+        });
+    }
+
 
   render() {
     return (
       <>
         <div className="insertion">
-          <form className="crud-form">
+          <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Marque</label>
-            <input name="nom" />
+            <input name="nomCategorie" onChange={this.handleChange}/>
             <button type="submit">Inserer</button>
           </form>
         </div>
@@ -74,7 +118,7 @@ class Categorie extends Component {
                   <td>{categorie.idCategorie}</td>
                   <td>{categorie.nomCategorie}</td>
                   <td className="actions">
-                    <button className="btn btn-danger">Supprimer</button>
+                    <button className="btn btn-danger" onClick={()=>this.remove(categorie.idCategorie)}>Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>

@@ -12,7 +12,9 @@ class Transmission extends Component {
       view: "list",
       allTrans: [],
       pageLimit:3,
+      nomTransmission:''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
   componentDidMount() {
@@ -52,13 +54,54 @@ class Transmission extends Component {
     this.setState({ currentPage, currentTrans, totalPages });
   };
 
+  
+  
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });//
+    }
+    async handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nomTransmission = formData.get("nomTransmission");//
+        
+
+        let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
+
+        await fetch(url , {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomTransmission }) //
+        }).then(()=>{
+            const newItem = {nomTransmission};//
+            this.setState({ allMoteur: [...this.state.allTrans, newItem] });//
+            window.location.reload();
+        });
+    }
+    async remove(id){
+        console.log("miditra");
+        let url = 'http://localhost:8080/transmission/'+id; //
+        await fetch(url,{
+            method:'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(()=>{
+            let updated = [...this.state.allTrans].filter(i => i.id !== id);//
+            this.setState({allTrans: updated}); //
+            window.location.reload();
+        });
+    }
   render() {
     return (
       <>
         <div className="insertion">
-          <form className="crud-form">
+          <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Transmission</label>
-            <input name="nom" />
+            <input name="nomTransmission" onChange={this.handleChange}/>
             <button type="submit">Inserer</button>
           </form>
         </div>
@@ -74,7 +117,7 @@ class Transmission extends Component {
                   <td>{trans.idTransmission}</td>
                   <td>{trans.nomTransmission}</td>
                   <td className="actions">
-                    <button className="btn btn-danger">Supprimer</button>
+                    <button className="btn btn-danger" onClick={()=>this.remove(trans.idTransmission)}>Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>

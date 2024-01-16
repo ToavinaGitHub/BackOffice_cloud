@@ -12,7 +12,9 @@ class Marque extends Component {
       view: "list",
       allMarque: [], ///////
       pageLimit:3,
+      nomMarque:''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
   componentDidMount() {
@@ -52,13 +54,53 @@ class Marque extends Component {
     this.setState({ currentPage, currentMarque, totalPages }); ///////
   };
 
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });//
+    }
+    async handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nomMarque = formData.get("nomMarque");//
+        
+
+        let url ='http://localhost:8080/marque?nom='+nomMarque;//
+
+        await fetch(url , {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomMarque }) //
+        }).then(()=>{
+            const newItem = {nomMarque};//
+            this.setState({ allMarque: [...this.state.allMarque, newItem] });//
+            window.location.reload();
+        });
+    }
+    async remove(id){
+        console.log("miditra");
+        let url = 'http://localhost:8080/marque/'+id; //
+        await fetch(url,{
+            method:'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(()=>{
+            let updated = [...this.state.allMarque].filter(i => i.id !== id);//
+            this.setState({allMarque: updated}); //
+            window.location.reload();
+        });
+    }
+
   render() {
     return (
       <>
         <div className="insertion">
-          <form className="crud-form">
+          <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Marque</label>
-            <input name="nom" />
+            <input name="nomMarque" onChange={this.handleChange}/>
             <button type="submit">Inserer</button>
           </form>
         </div>
@@ -74,7 +116,7 @@ class Marque extends Component {
                   <td>{marque.idMarque}</td>
                   <td>{marque.nomMarque}</td>
                   <td className="actions">
-                    <button className="btn btn-danger">Supprimer</button>
+                    <button className="btn btn-danger" onClick={()=>this.remove(marque.idMarque)}>Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>

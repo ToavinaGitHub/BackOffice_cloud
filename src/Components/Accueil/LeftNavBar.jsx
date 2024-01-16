@@ -25,20 +25,6 @@ const LeftNavBar = () => {
                         </div>
                 </li>
                 <li className='li-head'>
-                    <div 
-                        className={`nav-link ${activeDropdown === 'statistique' ? 'active' : ''}`  }
-                        onClick={() => handleToggleDropdown('statistique')}
-                    >
-                        <i className="fas fa-scroll"></i>
-                        <span>Statistique</span>
-                    </div>
-                    {activeDropdown === 'statistique' && (
-                        <ul className="sub-menu">
-                            <li>Vente de vehicule</li>
-                        </ul>
-                    )}
-                </li>
-                <li className='li-head'>
                     <div
                         className={`nav-link ${activeDropdown === 'crud' ? 'active' : ''}`}
                         onClick={() => handleToggleDropdown('crud')}
@@ -70,6 +56,23 @@ const LeftNavBar = () => {
                     {activeDropdown === 'annonces' && (
                         <ul className="sub-menu">
                             <a href="/ValiderAnnonce"><li>Valider Annonce</li></a>
+                        </ul>
+                    )}
+                </li>
+                <li className='li-head'>
+                    <div
+                        className={`nav-link ${activeDropdown === 'stats' ? 'active' : ''}`}
+                        onClick={() => handleToggleDropdown('stats')}
+                    >
+                        <i className="fas fa-scroll"></i>
+                        <span>Statistiques</span>
+                    </div>
+                    
+                    {activeDropdown === 'stats' && (
+                        <ul className="sub-menu">
+                            <a href="/venteParAns"><li>Vente par Ans</li></a>
+                            <a href="/annonceParAns"><li>Annonce par Ans</li></a>
+                            <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
                         </ul>
                     )}
                 </li>

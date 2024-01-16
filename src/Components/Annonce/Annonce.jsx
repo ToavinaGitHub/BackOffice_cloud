@@ -29,12 +29,15 @@ class Annonce extends Component {
       transmission,
       carburant,
       modele,
+      anneeModele,
       onAccept,
       onRefuse,
     } = this.props;
     
 
     const { currentImage } = this.state;
+
+
    
     return (
       <div className="annonce-card">
@@ -61,6 +64,7 @@ class Annonce extends Component {
           <div className="nbPorte">{nbPorte} portes</div>
           <div className="transmission">Transmission: <strong>{transmission.nomTransmission}</strong></div>
           <div className="carburant">Carburant:<strong>{carburant.nomCarburant}</strong> </div>
+          <div className="annee">Année:<strong>{anneeModele.annee}</strong> </div>
           
           {/* <div className="prixVente">Selling Price: {prixVente}</div> */}
           {/* <div className="etat">Status: {etat === 1 ? "Active" : "Inactive"}</div> */}

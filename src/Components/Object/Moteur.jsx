@@ -12,7 +12,9 @@ class Moteur extends Component {
       view: "list",
       allMoteur: [], ///////
       pageLimit:3,
+      nomMoteur:''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
   componentDidMount() {
@@ -52,13 +54,54 @@ class Moteur extends Component {
     this.setState({ currentPage, currentMoteur, totalPages }); ///////
   };
 
+  
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });//
+    }
+    async handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nomMoteur = formData.get("nomMoteur");//
+        
+
+        let url ='http://localhost:8080/moteur?nom='+nomMoteur;//
+
+        await fetch(url , {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomMoteur }) //
+        }).then(()=>{
+            const newItem = {nomMoteur};//
+            this.setState({ allMoteur: [...this.state.allMoteur, newItem] });//
+            window.location.reload();
+        });
+    }
+    async remove(id){
+        console.log("miditra");
+        let url = 'http://localhost:8080/moteur/'+id; //
+        await fetch(url,{
+            method:'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(()=>{
+            let updated = [...this.state.allMoteur].filter(i => i.id !== id);//
+            this.setState({allMoteur: updated}); //
+            window.location.reload();
+        });
+    }
+
   render() {
     return (
       <>
         <div className="insertion">
-          <form className="crud-form">
+          <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Moteur</label>
-            <input name="nom" />
+            <input name="nomMoteur" onChange={this.handleChange}/>
             <button type="submit">Inserer</button>
           </form>
         </div>
@@ -74,7 +117,7 @@ class Moteur extends Component {
                   <td>{moteur.idMoteur}</td>
                   <td>{moteur.nomMoteur}</td>
                   <td className="actions">
-                    <button className="btn btn-danger">Supprimer</button>
+                    <button className="btn btn-danger" onClick={()=>this.remove(moteur.idMoteur)}>Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>

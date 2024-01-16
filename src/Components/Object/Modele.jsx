@@ -13,8 +13,12 @@ class Modele extends Component {
       allModele: [], ///////
       pageLimit:3,
       allMarque:[],
-      allCategorie : []
+      allCategorie : [],
+      nomModele:'',
+      marque:'',
+      categorie:''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
   componentDidMount() {
@@ -76,21 +80,63 @@ class Modele extends Component {
     this.setState({ currentPage, currentModele, totalPages }); ///////
   };
 
+    handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });//
+    }
+    async handleSubmit(event){
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nomM = formData.get("nomModele");//
+        const marq = formData.get("marque");//
+        const categ = formData.get("categorie");//
+        
+
+        let url ='http://localhost:8080/modele?nom='+nomM+'&idCategorie='+categ+'&idMarque='+marq
+
+        await fetch(url , {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nomM,marq,categ}) //
+        }).then(()=>{
+            const newItem = { nomM,marq,categ};//
+            this.setState({ allMarque: [...this.state.allModele, newItem] });//
+            window.location.reload();
+        });
+    }
+    async remove(id){
+        let url = 'http://localhost:8080/modele/'+id; //
+        await fetch(url,{
+            method:'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(()=>{
+            let updated = [...this.state.allModele].filter(i => i.id !== id);//
+            this.setState({allModele: updated}); //
+            window.location.reload();
+        });
+    }
+
+
   render() {
     return (
       <>
         <div className="insertion">
-          <form className="crud-form">
+          <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Modele</label>
-            <input name="nomModele" />
+            <input name="nomModele" onChange={this.handleChange} />
             <label>Marque</label>
-            <select name="marque">
+            <select name="marque"  onChange={this.handleChange} >
                 {this.state.allMarque.map((marque)=> (
                     <option value={marque.idMarque}>{marque.nomMarque}</option>
                 ))}
             </select>
             <label>Categorie</label>
-            <select name="categorie">
+            <select name="categorie"  onChange={this.handleChange} >
                 {this.state.allCategorie.map((categ)=> (
                     <option value={categ.idCategorie}>{categ.nomCategorie}</option>
                 ))}
@@ -112,7 +158,7 @@ class Modele extends Component {
                   <td>{modele.marque.nomMarque}</td>
                   <td>{modele.categorie.nomCategorie}</td>
                   <td className="actions">
-                    <button className="btn btn-danger">Supprimer</button>
+                    <button className="btn btn-danger" onClick={()=>this.remove(modele.idModele)}>Supprimer</button>
                     <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>
