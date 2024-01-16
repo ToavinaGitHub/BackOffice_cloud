@@ -15,6 +15,9 @@ import AnnonceTempl from "./Components/Annonce/AnnonceTempl"
 import Modele  from './Components/Object/Modele';
 import MoteurModele from './Components/Object/MoteurModele';
 import AnneeModele from './Components/Object/AnneeModele';
+import VenteParAns from './Components/Stats/VenteParAns';
+import AnnonceParAns from './Components/Stats/AnnonceParAns';
+import BestMarqueParAns from './Components/Stats/BestMarqueParAns';
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
           <Route exact path="/modele" element={<Layout><CrudObject  title="Modele" obj={<Modele />} /></Layout>} />
           <Route exact path="/moteurModele" element={<Layout><CrudObject  title="Moteur modele" obj={<MoteurModele />} /></Layout>} />
           <Route exact path="/anneeModele" element={<Layout><CrudObject  title="Année modele" obj={<AnneeModele />} /></Layout>} />
+          <Route exact path="/venteParAns" element={<Layout><VenteParAns /></Layout>} />
+          <Route exact path="/annonceParAns" element={<Layout><AnnonceParAns /></Layout>} />
+          <Route exact path="/bestMarqueParAns" element={<Layout><BestMarqueParAns /></Layout>} />
         </Routes>
    </BrowserRouter>
   );
