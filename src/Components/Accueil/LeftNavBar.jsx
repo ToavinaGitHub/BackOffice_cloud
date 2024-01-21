@@ -13,6 +13,12 @@ const LeftNavBar = () => {
         setActiveDropdown(activeDropdown === dropdownId ? null : dropdownId);
     };
 
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+        window.location.href = "/"; 
+      };
+
 
     return (
         <div className="left-bar">
@@ -73,9 +79,16 @@ const LeftNavBar = () => {
                             <a href="/venteParAns"><li>Vente par Ans</li></a>
                             <a href="/annonceParAns"><li>Annonce par Ans</li></a>
                             <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
+                            <a href="/prixParAns"><li>Prix par ans</li></a>
                         </ul>
                     )}
+                    
+                   
+
                 </li>
+                <button className="logout-button" onClick={() => handleLogout()}>
+                        Déconnexion
+                    </button>
             </ul>
         </div>
     );
