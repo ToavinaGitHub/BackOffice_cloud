@@ -12,7 +12,8 @@ class Categorie extends Component {
       view: "list",
       allCategorie: [], ///////
       pageLimit:3,
-      nomCategorie:''//
+      nomCategorie:'',
+      token: localStorage.getItem("token")
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
 
@@ -23,7 +24,11 @@ class Categorie extends Component {
   }
 
   fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories") ///////
+    fetch("http://localhost:8080/categories" , {
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -70,7 +75,8 @@ class Categorie extends Component {
             method:'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
             },
             body: JSON.stringify({ nomCateg }) //
         }).then(()=>{
@@ -86,7 +92,8 @@ class Categorie extends Component {
             method:'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
             }
         }).then(()=>{
             let updated = [...this.state.allCategorie].filter(i => i.id !== id);//
