@@ -12,7 +12,11 @@ class Marque extends Component {
       view: "list",
       allMarque: [], ///////
       pageLimit:3,
-      nomMarque:''
+      nomMarque:'',
+      idMarque:'',
+      token: localStorage.getItem("token"),///////////////////
+      isModif:0,//////////////////////////////////
+      champButton:"Inserer"////////////////////////////////
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -22,7 +26,11 @@ class Marque extends Component {
   }
 
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques") ///////
+    fetch("http://localhost:8080/marques",{
+       headers: {
+      'Authorization': `Bearer ${this.state.token}`,
+      }
+  }) ///////
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -63,20 +71,40 @@ class Marque extends Component {
         const nomMarque = formData.get("nomMarque");//
         
 
-        let url ='http://localhost:8080/marque?nom='+nomMarque;//
+        if(this.state.isModif==0){
+          let url ='http://localhost:8080/marque?nom='+nomMarque;//
 
-        await fetch(url , {
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ nomMarque }) //
-        }).then(()=>{
-            const newItem = {nomMarque};//
-            this.setState({ allMarque: [...this.state.allMarque, newItem] });//
-            window.location.reload();
-        });
+          await fetch(url , {
+              method:'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${this.state.token}`
+              },
+              body: JSON.stringify({ nomMarque }) //
+          }).then(()=>{
+              const newItem = {nomMarque};//
+              this.setState({ allMarque: [...this.state.allMarque, newItem] });//
+              window.location.reload();
+          });
+        }else if(this.state.isModif==1){
+          let url ='http://localhost:8080/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
+            await fetch(url , {
+                method:'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.state.token}`,
+                },
+                body: JSON.stringify({ nomMarque }) //
+            }).then(()=>{
+                const newItem = {nomMarque};
+                this.setState({ allMarque: [...this.state.allMarque, newItem] });
+                this.setState({ isModif:0,champButton:"Inserer",nomMarque:'',idMarque:'' });
+                window.location.reload();
+            });
+        }
+
     }
     async remove(id){
         console.log("miditra");
@@ -85,7 +113,8 @@ class Marque extends Component {
             method:'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
             }
         }).then(()=>{
             let updated = [...this.state.allMarque].filter(i => i.id !== id);//
@@ -94,14 +123,20 @@ class Marque extends Component {
         });
     }
 
+    
+    handleIncrementClick = (item) => {
+      this.setState({ isModif:1,champButton:"Modifier",nomMarque:item.nomMarque,idMarque:item.idMarque });
+    }
+
+
   render() {
     return (
       <>
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Marque</label>
-            <input name="nomMarque" onChange={this.handleChange}/>
-            <button type="submit">Inserer</button>
+            <input name="nomMarque" value={this.state.nomMarque} onChange={this.handleChange}/>
+            <button type="submit">{this.state.champButton}</button>
           </form>
         </div>
         <div className="liste">
@@ -117,7 +152,7 @@ class Marque extends Component {
                   <td>{marque.nomMarque}</td>
                   <td className="actions">
                     <button className="btn btn-danger" onClick={()=>this.remove(marque.idMarque)}>Supprimer</button>
-                    <button className="btn btn-warning">Modifier</button>
+                    <button className="btn btn-warning" onClick={() => this.handleIncrementClick(marque)}>Modifier</button>
                   </td>
                 </tr>
               ))}

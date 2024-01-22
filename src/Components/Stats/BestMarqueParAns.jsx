@@ -11,6 +11,7 @@ class BestMarqueParAns extends Component {
       selectedNameMonth: 0,
       selectedNumeroMonth: 0,
       dataY: [],
+      token: localStorage.getItem("token"),
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }
@@ -20,7 +21,11 @@ class BestMarqueParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/bestMarque?annee=" + this.state.selectedYear)
+    fetch("http://localhost:8080/bestMarque?annee=" + this.state.selectedYear,{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         this.setState({ dataY: data }, () => {

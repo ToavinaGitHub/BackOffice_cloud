@@ -12,7 +12,11 @@ class Transmission extends Component {
       view: "list",
       allTrans: [],
       pageLimit:3,
-      nomTransmission:''
+      nomTransmission:'',
+      idTransmission:'',
+      token: localStorage.getItem("token"),
+      isModif:0,
+      champButton:"Inserer"
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -22,7 +26,11 @@ class Transmission extends Component {
   }
 
   fetchTransmissionData = () => {
-    fetch("http://localhost:8080/transmissions")
+    fetch("http://localhost:8080/transmissions",{
+      headers: {
+          'Authorization': `Bearer ${this.state.token}`,
+        }
+      })
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -65,20 +73,40 @@ class Transmission extends Component {
         const nomTransmission = formData.get("nomTransmission");//
         
 
-        let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
 
-        await fetch(url , {
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ nomTransmission }) //
-        }).then(()=>{
-            const newItem = {nomTransmission};//
-            this.setState({ allMoteur: [...this.state.allTrans, newItem] });//
-            window.location.reload();
-        });
+        if(this.state.isModif==0){
+          let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
+
+          await fetch(url , {
+              method:'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${this.state.token}`
+              },
+              body: JSON.stringify({ nomTransmission }) //
+          }).then(()=>{
+              const newItem = {nomTransmission};//
+              this.setState({ allMoteur: [...this.state.allTrans, newItem] });//
+              window.location.reload();
+          });
+        }else if(this.state.isModif==1){
+           let url ='http://localhost:8080/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
+            await fetch(url , {
+                method:'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.state.token}`,
+                },
+                body: JSON.stringify({ nomTransmission }) //
+            }).then(()=>{
+                const newItem = {nomTransmission};
+                this.setState({ allTrans: [...this.state.allTrans, newItem] });
+                this.setState({ isModif:0,champButton:"Inserer",nomTransmission:'',idTransmission:'' });
+                window.location.reload();
+            });
+        }
     }
     async remove(id){
         console.log("miditra");
@@ -87,7 +115,8 @@ class Transmission extends Component {
             method:'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`
             }
         }).then(()=>{
             let updated = [...this.state.allTrans].filter(i => i.id !== id);//
@@ -95,14 +124,18 @@ class Transmission extends Component {
             window.location.reload();
         });
     }
+
+    handleIncrementClick = (item) => {
+      this.setState({ isModif:1,champButton:"Modifier",nomTransmission:item.nomTransmission,idTransmission:item.idTransmission });
+    }
   render() {
     return (
       <>
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Transmission</label>
-            <input name="nomTransmission" onChange={this.handleChange}/>
-            <button type="submit">Inserer</button>
+            <input name="nomTransmission" value={this.state.nomTransmission} onChange={this.handleChange}/>
+            <button type="submit">{this.state.champButton}</button>
           </form>
         </div>
         <div className="liste">
@@ -118,7 +151,7 @@ class Transmission extends Component {
                   <td>{trans.nomTransmission}</td>
                   <td className="actions">
                     <button className="btn btn-danger" onClick={()=>this.remove(trans.idTransmission)}>Supprimer</button>
-                    <button className="btn btn-warning">Modifier</button>
+                    <button className="btn btn-warning" onClick={() => this.handleIncrementClick(trans)}>Modifier</button>
                   </td>
                 </tr>
               ))}

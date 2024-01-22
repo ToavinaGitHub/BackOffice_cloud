@@ -13,7 +13,10 @@ class Categorie extends Component {
       allCategorie: [], ///////
       pageLimit:3,
       nomCategorie:'',
-      token: localStorage.getItem("token")
+      idCategorie:'',//////////////////////////////////////
+      token: localStorage.getItem("token"),///////////////////
+      isModif:0,//////////////////////////////////
+      champButton:"Inserer"////////////////////////////////
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
 
@@ -63,27 +66,48 @@ class Categorie extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });//
     }
-    async handleSubmit(event){
+  async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
         const nomCateg = formData.get("nomCategorie");//
         
+        console.log(this.state.isModif+"----------");
 
-        let url ='http://localhost:8080/categorie?nom='+nomCateg;//
+        if(this.state.isModif === 0){
+          let url ='http://localhost:8080/categorie?nom='+nomCateg;//
 
-        await fetch(url , {
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.state.token}`,
-            },
-            body: JSON.stringify({ nomCateg }) //
-        }).then(()=>{
-            const newItem = {nomCateg};//
-            this.setState({ allCarburant: [...this.state.allCategorie, newItem] });//
-            window.location.reload();
-        });
+          await fetch(url , {
+              method:'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${this.state.token}`,
+              },
+              body: JSON.stringify({ nomCateg }) //
+          }).then(()=>{
+              const newItem = {nomCateg};//
+              this.setState({ allCategorie: [...this.state.allCategorie, newItem] });//
+              window.location.reload();
+          });
+        }else if(this.state.isModif === 1){
+            let url ='http://localhost:8080/categorie/'+this.state.idCategorie+'?nom='+this.state.nomCategorie;//
+            await fetch(url , {
+                method:'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.state.token}`,
+                },
+                body: JSON.stringify({ nomCateg }) //
+            }).then(()=>{
+                const newItem = {nomCateg};
+                this.setState({ allCategorie: [...this.state.allCategorie, newItem] });
+                this.setState({ isModif:0,champButton:"Inserer",nomCategorie:'',idCategorie:'' });
+                window.location.reload();
+            });
+        }
+
+       
     }
     async remove(id){
         console.log("miditra");
@@ -102,6 +126,11 @@ class Categorie extends Component {
         });
     }
 
+    handleIncrementClick = (item) => {
+      this.setState({ isModif:1,champButton:"Modifier",nomCategorie:item.nomCategorie,idCategorie:item.idCategorie });
+    }
+
+
 
   render() {
     return (
@@ -109,8 +138,8 @@ class Categorie extends Component {
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Marque</label>
-            <input name="nomCategorie" onChange={this.handleChange}/>
-            <button type="submit">Inserer</button>
+            <input name="nomCategorie" value={this.state.nomCategorie} onChange={this.handleChange}/>
+            <button type="submit">{this.state.champButton}</button>
           </form>
         </div>
         <div className="liste">
@@ -126,7 +155,7 @@ class Categorie extends Component {
                   <td>{categorie.nomCategorie}</td>
                   <td className="actions">
                     <button className="btn btn-danger" onClick={()=>this.remove(categorie.idCategorie)}>Supprimer</button>
-                    <button className="btn btn-warning">Modifier</button>
+                    <button className="btn btn-warning" onClick={() => this.handleIncrementClick(categorie)}>Modifier</button>
                   </td>
                 </tr>
               ))}
