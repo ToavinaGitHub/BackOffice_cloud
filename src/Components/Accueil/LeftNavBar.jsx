@@ -78,7 +78,7 @@ const LeftNavBar = () => {
                             <a href="/venteParAns"><li>Vente par Ans</li></a>
                             <a href="/annonceParAns"><li>Annonce par Ans</li></a>
                             <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
-                            <a href="/prixParAns"><li>Prix par ans</li></a>
+                            <a href="/prixParAns"><li>Revenue par ans</li></a>
                         </ul>
                     )}
                     
