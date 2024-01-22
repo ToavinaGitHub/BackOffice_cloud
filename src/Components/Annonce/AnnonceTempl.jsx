@@ -7,6 +7,7 @@ class AnnonceTempl extends React.Component {
     super(props);
     this.state = {
       annonces: [],
+      token: localStorage.getItem("token"),
     };
   }
 
@@ -15,7 +16,11 @@ class AnnonceTempl extends React.Component {
   }
 
   fetchAnnonceDemandeData = () => {
-    fetch("http://localhost:8080/AnnoncesEnDemande")
+    fetch("http://localhost:8080/AnnoncesEnDemande",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         this.setState({ annonces: data });
@@ -32,7 +37,8 @@ class AnnonceTempl extends React.Component {
         method:'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.state.token}`,
         },
       
     }).then(() => {
@@ -49,7 +55,8 @@ class AnnonceTempl extends React.Component {
         method:'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.state.token}`,
         },
       
     }).then(() => {

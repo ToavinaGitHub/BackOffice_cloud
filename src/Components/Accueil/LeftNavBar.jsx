@@ -14,7 +14,6 @@ const LeftNavBar = () => {
     };
 
     const handleLogout = () => {
-
         localStorage.removeItem("token");
         window.location.href = "/"; 
       };

@@ -17,7 +17,8 @@ class MoteurModele extends Component {
       moteur:'',
       modele:'',
       currentModele:'',
-      MoteurCurrentModele:[]
+      MoteurCurrentModele:[],
+      token: localStorage.getItem("token")
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -30,7 +31,11 @@ class MoteurModele extends Component {
 
 
   fetchMoteurModeleData = () => { ///////
-    fetch("http://localhost:8080/moteursModele") ///////
+    fetch("http://localhost:8080/moteursModele",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -45,7 +50,11 @@ class MoteurModele extends Component {
       });
   };
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles") ///////
+    fetch("http://localhost:8080/modeles",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
             this.setState({allModele:data})
@@ -55,7 +64,11 @@ class MoteurModele extends Component {
       });
   };
   fetchMoteurData = () => { ///////
-    fetch("http://localhost:8080/moteurs") ///////
+    fetch("http://localhost:8080/moteurs",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
             this.setState({allMoteur:data})
@@ -66,7 +79,11 @@ class MoteurModele extends Component {
   };
 
   fetchMoteurDataByIdModele = (idModele) => { ///////
-    fetch("http://localhost:8080/moteurModeles?idModele="+idModele) ///////
+    fetch("http://localhost:8080/moteurModeles?idModele="+idModele,{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
             console.log(data)
@@ -97,7 +114,8 @@ class MoteurModele extends Component {
             method:'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',               
+                'Authorization': `Bearer ${this.state.token}`, 
             },
             body: JSON.stringify({ mot,mod }) //
         }).then(()=>{

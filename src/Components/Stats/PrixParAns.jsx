@@ -11,7 +11,8 @@ class PrixParAns extends Component {
       selectedNameMonth: 0,
       selectedNumeroMonth: 0,
       dataY: [],
-      total : 0
+      total : 0,
+      token: localStorage.getItem("token"),
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }
@@ -22,7 +23,11 @@ class PrixParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/statPrixMois?annee=" + this.state.selectedYear)
+    fetch("http://localhost:8080/statPrixMois?annee=" + this.state.selectedYear,{
+        headers: {
+          'Authorization': `Bearer ${this.state.token}`,
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
         this.setState({ dataY: data }, () => {
@@ -35,7 +40,11 @@ class PrixParAns extends Component {
   };
 
   fetchTotal = () => {
-    fetch("http://localhost:8080/revenuAnnuel?annee=" + this.state.selectedYear)
+    fetch("http://localhost:8080/revenuAnnuel?annee=" + this.state.selectedYear,{
+        headers: {
+          'Authorization': `Bearer ${this.state.token}`,
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
         this.setState({ total: data })

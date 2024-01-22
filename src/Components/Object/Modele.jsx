@@ -16,7 +16,8 @@ class Modele extends Component {
       allCategorie : [],
       nomModele:'',
       marque:'',
-      categorie:''
+      categorie:'',
+      token: localStorage.getItem("token"),
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -28,7 +29,11 @@ class Modele extends Component {
   }
 
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles") ///////
+    fetch("http://localhost:8080/modeles",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -43,7 +48,11 @@ class Modele extends Component {
       });
   };
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques") ///////
+    fetch("http://localhost:8080/marques",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
         this.setState({allMarque: data});
@@ -53,7 +62,11 @@ class Modele extends Component {
       });
   };
   fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories") ///////
+    fetch("http://localhost:8080/categories",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
         this.setState({allCategorie: data});
@@ -97,7 +110,9 @@ class Modele extends Component {
             method:'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
+                 
             },
             body: JSON.stringify({ nomM,marq,categ}) //
         }).then(()=>{
@@ -112,7 +127,8 @@ class Modele extends Component {
             method:'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`, 
             }
         }).then(()=>{
             let updated = [...this.state.allModele].filter(i => i.id !== id);//
@@ -159,7 +175,6 @@ class Modele extends Component {
                   <td>{modele.categorie.nomCategorie}</td>
                   <td className="actions">
                     <button className="btn btn-danger" onClick={()=>this.remove(modele.idModele)}>Supprimer</button>
-                    <button className="btn btn-warning">Modifier</button>
                   </td>
                 </tr>
               ))}

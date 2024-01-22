@@ -12,7 +12,11 @@ class Carburant extends Component {
       view: "list",
       allCarburant: [],
       pageLimit:3,
-      nomCarburant:''//
+      nomCarburant:'',
+      idCarburant:'',
+      token: localStorage.getItem("token"),///////////////////
+      isModif:0,//////////////////////////////////
+      champButton:"Inserer"////////////////////////////////
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -22,7 +26,11 @@ class Carburant extends Component {
   }
 
   fetchCarburantData = () => { 
-    fetch("http://localhost:8080/carburants") 
+    fetch("http://localhost:8080/carburants",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) 
       .then((response) => response.json())
       .then((data) => {
         const tot = data.length;
@@ -62,21 +70,42 @@ class Carburant extends Component {
         const formData = new FormData(event.target);
         const nomCarb = formData.get("nomCarburant");//
         
+        if(this.state.isModif == 0){
+          let url ='http://localhost:8080/carburant?nom='+nomCarb;//
 
-        let url ='http://localhost:8080/carburant?nom='+nomCarb;//
 
-        await fetch(url , {
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ nomCarb }) //
-        }).then(()=>{
-            const newItem = {nomCarb};
-            this.setState({ allCarburant: [...this.state.allCarburant, newItem] });//
-            window.location.reload();
-        });
+          await fetch(url , {
+              method:'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${this.state.token}`,
+                  
+              },
+              body: JSON.stringify({ nomCarb }) //
+          }).then(()=>{
+              const newItem = {nomCarb};
+              this.setState({ allCarburant: [...this.state.allCarburant, newItem] });//
+              window.location.reload();
+          });
+        }else if(this.state.isModif == 1){
+          let url ='http://localhost:8080/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
+          await fetch(url , {
+              method:'PUT',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${this.state.token}`,
+              },
+              body: JSON.stringify({ nomCarb }) //
+          }).then(()=>{
+              const newItem = {nomCarb};
+              this.setState({ allCarburant: [...this.state.allCarburant, newItem] });
+              this.setState({ isModif:0,champButton:"Inserer",nomCarburant:'',idCarburant:'' });
+              window.location.reload();
+          });
+        }
+       
     }
     async remove(id){
         console.log("miditra");
@@ -85,13 +114,17 @@ class Carburant extends Component {
             method:'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
             }
         }).then(()=>{
             let updated = [...this.state.allCarburant].filter(i => i.id !== id);//
             this.setState({allCarburant: updated}); //
             window.location.reload();
         });
+    }
+    handleIncrementClick = (item) => {
+      this.setState({ isModif:1,champButton:"Modifier",nomCarburant:item.nomCarburant,idCarburant:item.idCarburant });
     }
 
   render() {
@@ -100,8 +133,8 @@ class Carburant extends Component {
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
             <label>Carburant</label>
-            <input name="nomCarburant" onChange={this.handleChange}/>
-            <button type="submit">Inserer</button>
+            <input name="nomCarburant" value={this.state.nomCarburant} onChange={this.handleChange}/>
+            <button type="submit">{this.state.champButton}</button>
           </form>
         </div>
         <div className="liste">
@@ -117,7 +150,7 @@ class Carburant extends Component {
                   <td>{carburant.nomCarburant}</td>
                   <td className="actions">
                     <button className="btn btn-danger" onClick={()=>this.remove(carburant.idCarburant)}>Supprimer</button>
-                    <button className="btn btn-warning">Modifier</button>
+                    <button className="btn btn-warning" onClick={() => this.handleIncrementClick(carburant)}>Modifier</button>
                   </td>
                 </tr>
               ))}

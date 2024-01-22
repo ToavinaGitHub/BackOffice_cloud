@@ -16,7 +16,8 @@ class AnneeModele extends Component {
       annee:'',
       modele:'',
       currentModele:'',
-      anneeCurrentModele:[]
+      anneeCurrentModele:[],
+      token: localStorage.getItem("token")
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -27,7 +28,11 @@ class AnneeModele extends Component {
 
 
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles") ///////
+    fetch("http://localhost:8080/modeles",{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
             this.setState({allModele:data})
@@ -38,7 +43,11 @@ class AnneeModele extends Component {
   };
 
   fetchAnneDataByIdModele = (idModele) => { ///////
-    fetch("http://localhost:8080/anneeModeles?idModele="+idModele) ///////
+    fetch("http://localhost:8080/anneeModeles?idModele="+idModele,{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    }) ///////
       .then((response) => response.json())
       .then((data) => {
             console.log(data)
@@ -69,7 +78,8 @@ class AnneeModele extends Component {
             method:'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.state.token}`,
             },
             body: JSON.stringify({ annee,modele }) //
         }).then(()=>{
