@@ -1,7 +1,7 @@
 import React from "react";
 
 import "../assets/Object/CrudObject.css";
-import Categorie from "./Categorie";
+
 class CrudObject extends React.Component{
     constructor(props){
         super(props);

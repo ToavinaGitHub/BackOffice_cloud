@@ -27,6 +27,8 @@ class Categorie extends Component {
   }
 
   fetchCategorieData = () => { ///////
+
+    console.log(this.state.token);
     fetch("http://localhost:8080/categories" , {
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
@@ -137,7 +139,7 @@ class Categorie extends Component {
       <>
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
-            <label>Marque</label>
+            <label>Ctegorie</label>
             <input name="nomCategorie" value={this.state.nomCategorie} onChange={this.handleChange}/>
             <button type="submit">{this.state.champButton}</button>
           </form>
