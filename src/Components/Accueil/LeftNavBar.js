@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import '../assets/Accueil/LeftNavBar.css';
-import "../assets/bootstrap.min.css";
+import "../assets/bootstrap.css";
 
 import sary from "../assets/Accounts/images/log.jpg";
 
