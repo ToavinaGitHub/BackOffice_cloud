@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Modele extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +18,7 @@ class Modele extends Component {
       marque:'',
       categorie:'',
       token: localStorage.getItem("token"),
+      baseUrl: config.baseUrl,
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }

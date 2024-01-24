@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
-
+import config from "../../config.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class PrixParAns extends Component {
@@ -13,6 +13,7 @@ class PrixParAns extends Component {
       dataY: [],
       total : 0,
       token: localStorage.getItem("token"),
+      baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }

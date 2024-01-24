@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import config from "../../config.js";
 
 class MoteurModele extends Component {
   constructor(props) {
@@ -18,7 +18,8 @@ class MoteurModele extends Component {
       modele:'',
       currentModele:'',
       MoteurCurrentModele:[],
-      token: localStorage.getItem("token")
+      token: localStorage.getItem("token"),
+      baseUrl: config.baseUrl,
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }

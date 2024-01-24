@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 
+import config from "../../config.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class BestMarqueParAns extends Component {
@@ -12,6 +13,7 @@ class BestMarqueParAns extends Component {
       selectedNumeroMonth: 0,
       dataY: [],
       token: localStorage.getItem("token"),
+      baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }

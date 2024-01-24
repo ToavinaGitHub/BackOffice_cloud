@@ -1,6 +1,7 @@
 import React from "react";
 import Annonce from "./Annonce";
 import "../assets/Annonce/AnnonceTempl.css";
+import config from "../../config.js";
 
 class AnnonceTempl extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class AnnonceTempl extends React.Component {
     this.state = {
       annonces: [],
       token: localStorage.getItem("token"),
+      baseUrl:config.baseUrl,
     };
   }
 

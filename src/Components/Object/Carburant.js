@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Carburant extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,8 @@ class Carburant extends Component {
       idCarburant:'',
       token: localStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////,
+      baseUrl: config.apiBaseUrl
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }

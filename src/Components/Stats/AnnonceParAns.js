@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
-
+import config from "../../config.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class AnnonceParAns extends Component {
@@ -12,6 +12,7 @@ class AnnonceParAns extends Component {
       selectedNumeroMonth: 0,
       dataY: [],
       token: localStorage.getItem("token"),
+      baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }

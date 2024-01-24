@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Moteur extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,8 @@ class Moteur extends Component {
       idMoteur:'',
       token: localStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////
+      baseUrl: config.baseUrl
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }

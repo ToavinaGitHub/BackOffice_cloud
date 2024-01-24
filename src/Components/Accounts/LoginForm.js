@@ -1,6 +1,7 @@
 import React from "react";
 import "../assets/Accounts/LoginForm.css";
 import sary from "../assets/Accounts/images/log.jpg";
+import config from "../../config.js";
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -8,10 +9,12 @@ class LoginForm extends React.Component {
         this.state = {
           email: "client@gmail.com",
           password: "toavina",
+          baseUrl:config.baseUrl,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
       }
+      
       
 
     handleInputChange = (event) => {
@@ -54,6 +57,7 @@ class LoginForm extends React.Component {
         }
     }
   render() {
+    console.log(this.state.baseUrl);
     return (
       <>
         <div className="login-container">
