@@ -72,7 +72,7 @@ class Moteur extends Component {
         const nomMoteur = formData.get("nomMoteur");//
         
 
-        if(this.state.isModif==0){ 
+        if(this.state.isModif === 0){ 
           let url ='http://localhost:8080/moteur?nom='+nomMoteur;//
 
           await fetch(url , {
@@ -89,7 +89,7 @@ class Moteur extends Component {
               window.location.reload();
           });
         }
-        else if(this.state.isModif==1){
+        else if(this.state.isModif === 1){
           let url ='http://localhost:8080/moteur/'+this.state.idMoteur+'?nom='+this.state.nomMoteur;//
             await fetch(url , {
                 method:'PUT',

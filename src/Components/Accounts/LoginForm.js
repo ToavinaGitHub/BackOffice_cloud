@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../assets/Accounts/LoginForm.css";
 import sary from "../assets/Accounts/images/log.jpg";
 
@@ -82,7 +82,7 @@ class LoginForm extends React.Component {
                 />
                 <button type="submit">Login</button>
               </form>
-              <a id="error"></a>
+              <p id="error">...</p>
             </div>
           </div>
         </div>

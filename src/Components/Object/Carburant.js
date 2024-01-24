@@ -70,7 +70,7 @@ class Carburant extends Component {
         const formData = new FormData(event.target);
         const nomCarb = formData.get("nomCarburant");//
         
-        if(this.state.isModif == 0){
+        if(this.state.isModif === 0){
           let url ='http://localhost:8080/carburant?nom='+nomCarb;//
 
 
@@ -88,7 +88,7 @@ class Carburant extends Component {
               this.setState({ allCarburant: [...this.state.allCarburant, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif == 1){
+        }else if(this.state.isModif  ===  1){
           let url ='http://localhost:8080/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
           await fetch(url , {
               method:'PUT',

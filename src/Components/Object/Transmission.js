@@ -74,7 +74,7 @@ class Transmission extends Component {
         
 
 
-        if(this.state.isModif==0){
+        if(this.state.isModif === 0){
           let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
 
           await fetch(url , {
@@ -90,7 +90,7 @@ class Transmission extends Component {
               this.setState({ allMoteur: [...this.state.allTrans, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif==1){
+        }else if(this.state.isModif === 1){
            let url ='http://localhost:8080/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
             await fetch(url , {
                 method:'PUT',

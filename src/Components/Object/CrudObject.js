@@ -16,7 +16,7 @@ class CrudObject extends React.Component{
             <>
                 <div className="crud-container">
                     <div className="crud-title">
-                        <a><strong>CRUD>Object>{this.state.title}</strong></a>
+                        <strong>CRUD/Object/{this.state.title}</strong>
                     </div>
                     <div>
                         {this.props.obj}

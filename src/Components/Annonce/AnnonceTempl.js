@@ -71,9 +71,7 @@ class AnnonceTempl extends React.Component {
       <>
         <div className="crud-container">
           <div className="crud-title">
-            <a>
-              <strong>Annonces>{this.props.title}</strong>
-            </a>
+            <strong>Annonces/{this.props.title}</strong>
           </div>
           <div className="allAnnonces">
             {annonces.map((annonce, index) => (

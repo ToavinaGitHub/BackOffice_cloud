@@ -25,7 +25,7 @@ const LeftNavBar = () => {
                 <li className='li-head logo'>
                         <div >
                             <i className="fas fa-scroll"></i>
-                            <span><img src={sary} className="logo-img"></img></span>
+                            <span><img src={sary} alt={"logo"} className="logo-img"></img></span>
                             <span>Bônôkany</span>
                         </div>
                 </li>

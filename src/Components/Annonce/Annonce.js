@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../assets/Annonce/Annonce.css";
-import bm from "../assets/Annonce/bm.jpg";
+
 
 class Annonce extends Component {
   constructor(props) {
@@ -21,10 +21,7 @@ class Annonce extends Component {
       kilometrage,
       nbPorte,
       prixDemande,
-      prixVente,
-      etat,
       dateAnnonce,
-      commission,
       utilisateur,
       transmission,
       carburant,
@@ -35,8 +32,7 @@ class Annonce extends Component {
     } = this.props;
     
 
-    const { currentImage } = this.state;
-
+  
 
    
     return (

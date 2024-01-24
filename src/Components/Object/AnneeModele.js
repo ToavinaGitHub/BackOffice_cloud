@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Paging from "../Paging";
+
 
 class AnneeModele extends Component {
   constructor(props) {

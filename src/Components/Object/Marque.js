@@ -71,7 +71,7 @@ class Marque extends Component {
         const nomMarque = formData.get("nomMarque");//
         
 
-        if(this.state.isModif==0){
+        if(this.state.isModif === 0){
           let url ='http://localhost:8080/marque?nom='+nomMarque;//
 
           await fetch(url , {
@@ -87,7 +87,7 @@ class Marque extends Component {
               this.setState({ allMarque: [...this.state.allMarque, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif==1){
+        }else if(this.state.isModif === 1){
           let url ='http://localhost:8080/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
             await fetch(url , {
                 method:'PUT',
