@@ -28,7 +28,7 @@ class Transmission extends Component {
   }
 
   fetchTransmissionData = () => {
-    fetch("http://localhost:8080/transmissions",{
+    fetch(this.state.baseUrl+"/transmissions",{
       headers: {
           'Authorization': `Bearer ${this.state.token}`,
         }
@@ -77,7 +77,7 @@ class Transmission extends Component {
 
 
         if(this.state.isModif === 0){
-          let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
+          let url =this.state.baseUrl+'/transmission?nom='+nomTransmission;//
 
           await fetch(url , {
               method:'POST',
@@ -93,7 +93,7 @@ class Transmission extends Component {
               window.location.reload();
           });
         }else if(this.state.isModif === 1){
-           let url ='http://localhost:8080/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
+           let url =this.state.baseUrl+'/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -112,7 +112,7 @@ class Transmission extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/transmission/'+id; //
+        let url = this.state.baseUrl+'/transmission/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

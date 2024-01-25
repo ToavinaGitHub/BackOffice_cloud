@@ -23,7 +23,7 @@ class VenteParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/statNbVoitureVenduAnnee?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/statNbVoitureVenduAnnee?annee=" + this.state.selectedYear,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },

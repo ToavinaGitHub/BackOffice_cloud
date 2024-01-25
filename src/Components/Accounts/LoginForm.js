@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
         const password = formData.get("password");//
         
 
-        let url ='http://localhost:8080/api/v1/auth/authenticate';//
+        let url = this.state.baseUrl+'/api/v1/auth/authenticate';//
 
         try {
             const response = await fetch(url, {

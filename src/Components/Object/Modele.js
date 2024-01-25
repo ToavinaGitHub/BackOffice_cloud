@@ -30,7 +30,7 @@ class Modele extends Component {
   }
 
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles",{
+    fetch(this.state.baseUrl+"/modeles",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -49,7 +49,7 @@ class Modele extends Component {
       });
   };
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques",{
+    fetch(this.state.baseUrl+"/marques",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -63,7 +63,7 @@ class Modele extends Component {
       });
   };
   fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories",{
+    fetch(this.state.baseUrl+"/categories",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -105,7 +105,7 @@ class Modele extends Component {
         const categ = formData.get("categorie");//
         
 
-        let url ='http://localhost:8080/modele?nom='+nomM+'&idCategorie='+categ+'&idMarque='+marq
+        let url =this.state.baseUrl+'/modele?nom='+nomM+'&idCategorie='+categ+'&idMarque='+marq
 
         await fetch(url , {
             method:'POST',
@@ -123,7 +123,7 @@ class Modele extends Component {
         });
     }
     async remove(id){
-        let url = 'http://localhost:8080/modele/'+id; //
+        let url = this.state.baseUrl+'/modele/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

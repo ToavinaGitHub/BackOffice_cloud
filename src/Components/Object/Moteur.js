@@ -27,7 +27,7 @@ class Moteur extends Component {
   }
 
   fetchMoteurData = () => { ///////
-    fetch("http://localhost:8080/moteurs",{
+    fetch(this.state.baseUrl+"/moteurs",{
       headers: {
           'Authorization': `Bearer ${this.state.token}`,
         }
@@ -74,7 +74,7 @@ class Moteur extends Component {
         
 
         if(this.state.isModif === 0){ 
-          let url ='http://localhost:8080/moteur?nom='+nomMoteur;//
+          let url =this.state.baseUrl+'/moteur?nom='+nomMoteur;//
 
           await fetch(url , {
               method:'POST',
@@ -91,7 +91,7 @@ class Moteur extends Component {
           });
         }
         else if(this.state.isModif === 1){
-          let url ='http://localhost:8080/moteur/'+this.state.idMoteur+'?nom='+this.state.nomMoteur;//
+          let url =this.state.baseUrl+'/moteur/'+this.state.idMoteur+'?nom='+this.state.nomMoteur;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -110,7 +110,7 @@ class Moteur extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/moteur/'+id; //
+        let url =this.state.baseUrl+'/moteur/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

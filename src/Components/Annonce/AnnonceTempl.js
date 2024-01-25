@@ -18,7 +18,7 @@ class AnnonceTempl extends React.Component {
   }
 
   fetchAnnonceDemandeData = () => {
-    fetch("http://localhost:8080/AnnoncesEnDemande",{
+    fetch(this.state.baseUrl+"/AnnoncesEnDemande",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -33,7 +33,7 @@ class AnnonceTempl extends React.Component {
   };
 
   handleAccept = async (id) => { // Ajouter "async" ici
-    let url ='http://localhost:8080/Annonce/validation?idAnnonce='+id;
+    let url =this.state.baseUrl+'/Annonce/validation?idAnnonce='+id;
 
     await fetch(url , {
         method:'POST',
@@ -51,7 +51,7 @@ class AnnonceTempl extends React.Component {
   };
 
   handleRefuse = async (id) => { // Ajouter "async" ici
-    let url ='http://localhost:8080/Annonce/refuser?idAnnonce='+id;
+    let url =this.state.baseUrl+'/Annonce/refuser?idAnnonce='+id;
 
     await fetch(url , {
         method:'POST',

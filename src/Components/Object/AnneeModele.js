@@ -29,7 +29,7 @@ class AnneeModele extends Component {
 
 
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles",{
+    fetch(this.state.baseUrl+"/modeles",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -44,7 +44,7 @@ class AnneeModele extends Component {
   };
 
   fetchAnneDataByIdModele = (idModele) => { ///////
-    fetch("http://localhost:8080/anneeModeles?idModele="+idModele,{
+    fetch(this.state.baseUrl+"/anneeModeles?idModele="+idModele,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -73,7 +73,7 @@ class AnneeModele extends Component {
         const modele = formData.get("modele");//
         
 
-        let url ='http://localhost:8080/anneeModele?annee='+annee+'&idModele='+modele
+        let url =this.state.baseUrl+'/anneeModele?annee='+annee+'&idModele='+modele
 
         await fetch(url , {
             method:'POST',

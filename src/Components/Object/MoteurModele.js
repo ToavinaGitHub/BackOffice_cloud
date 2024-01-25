@@ -32,7 +32,7 @@ class MoteurModele extends Component {
 
 
   fetchMoteurModeleData = () => { ///////
-    fetch("http://localhost:8080/moteursModele",{
+    fetch(this.state.baseUrl+"/moteursModele",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -51,7 +51,7 @@ class MoteurModele extends Component {
       });
   };
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles",{
+    fetch(this.state.baseUrl+"/modeles",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -65,7 +65,7 @@ class MoteurModele extends Component {
       });
   };
   fetchMoteurData = () => { ///////
-    fetch("http://localhost:8080/moteurs",{
+    fetch(this.state.baseUrl+"/moteurs",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -80,7 +80,7 @@ class MoteurModele extends Component {
   };
 
   fetchMoteurDataByIdModele = (idModele) => { ///////
-    fetch("http://localhost:8080/moteurModeles?idModele="+idModele,{
+    fetch(this.state.baseUrl+"/moteurModeles?idModele="+idModele,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -109,7 +109,7 @@ class MoteurModele extends Component {
         const mod = formData.get("modele");
         
 
-        let url ='http://localhost:8080/moteurModele?idMoteur='+mot+'&idModele='+mod
+        let url =this.state.baseUrl+'/moteurModele?idMoteur='+mot+'&idModele='+mod
 
         await fetch(url , {
             method:'POST',

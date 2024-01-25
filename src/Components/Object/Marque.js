@@ -27,7 +27,7 @@ class Marque extends Component {
   }
 
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques",{
+    fetch(this.state.baseUrl+"/marques",{
        headers: {
       'Authorization': `Bearer ${this.state.token}`,
       }
@@ -73,7 +73,7 @@ class Marque extends Component {
         
 
         if(this.state.isModif === 0){
-          let url ='http://localhost:8080/marque?nom='+nomMarque;//
+          let url =this.state.baseUrl+'/marque?nom='+nomMarque;//
 
           await fetch(url , {
               method:'POST',
@@ -89,7 +89,7 @@ class Marque extends Component {
               window.location.reload();
           });
         }else if(this.state.isModif === 1){
-          let url ='http://localhost:8080/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
+          let url =this.state.baseUrl+'/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -109,7 +109,7 @@ class Marque extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/marque/'+id; //
+        let url = this.state.baseUrl+'/marque/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

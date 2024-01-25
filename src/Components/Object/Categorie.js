@@ -30,7 +30,7 @@ class Categorie extends Component {
   fetchCategorieData = () => { ///////
 
     console.log(this.state.token);
-    fetch("http://localhost:8080/categories" , {
+    fetch(this.state.baseUrl+"/categories" , {
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -77,7 +77,7 @@ class Categorie extends Component {
         console.log(this.state.isModif+"----------");
 
         if(this.state.isModif === 0){
-          let url ='http://localhost:8080/categorie?nom='+nomCateg;//
+          let url =this.state.baseUrl+'/categorie?nom='+nomCateg;//
 
           await fetch(url , {
               method:'POST',
@@ -93,7 +93,7 @@ class Categorie extends Component {
               window.location.reload();
           });
         }else if(this.state.isModif === 1){
-            let url ='http://localhost:8080/categorie/'+this.state.idCategorie+'?nom='+this.state.nomCategorie;//
+            let url =this.state.baseUrl+'/categorie/'+this.state.idCategorie+'?nom='+this.state.nomCategorie;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -114,7 +114,7 @@ class Categorie extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/categorie/'+id; //
+        let url = this.state.baseUrl+'/categorie/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

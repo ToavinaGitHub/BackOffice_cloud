@@ -27,7 +27,7 @@ class Carburant extends Component {
   }
 
   fetchCarburantData = () => { 
-    fetch("http://localhost:8080/carburants",{
+    fetch(this.state.baseUrl+"/carburants",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -72,7 +72,7 @@ class Carburant extends Component {
         const nomCarb = formData.get("nomCarburant");//
         
         if(this.state.isModif === 0){
-          let url ='http://localhost:8080/carburant?nom='+nomCarb;//
+          let url =this.state.baseUrl+'/carburant?nom='+nomCarb;//
 
 
           await fetch(url , {
@@ -90,7 +90,7 @@ class Carburant extends Component {
               window.location.reload();
           });
         }else if(this.state.isModif  ===  1){
-          let url ='http://localhost:8080/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
+          let url =this.state.baseUrl+'/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
           await fetch(url , {
               method:'PUT',
               headers: {
@@ -110,7 +110,7 @@ class Carburant extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/carburant/'+id; //
+        let url = this.state.baseUrl+'/carburant/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {

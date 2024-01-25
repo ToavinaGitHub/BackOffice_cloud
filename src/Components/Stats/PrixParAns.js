@@ -24,7 +24,7 @@ class PrixParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/statPrixMois?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/statPrixMois?annee=" + this.state.selectedYear,{
         headers: {
           'Authorization': `Bearer ${this.state.token}`,
         },
@@ -41,7 +41,7 @@ class PrixParAns extends Component {
   };
 
   fetchTotal = () => {
-    fetch("http://localhost:8080/revenuAnnuel?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/revenuAnnuel?annee=" + this.state.selectedYear,{
         headers: {
           'Authorization': `Bearer ${this.state.token}`,
         },

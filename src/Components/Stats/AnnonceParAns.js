@@ -22,7 +22,7 @@ class AnnonceParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/Annonce/statNbAnnonceAnnee?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/Annonce/statNbAnnonceAnnee?annee=" + this.state.selectedYear,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
