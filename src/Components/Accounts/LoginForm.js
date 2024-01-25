@@ -7,7 +7,7 @@ class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          email: "client@gmail.com",
+          email: "toavina@gmail.com",
           password: "toavina",
           baseUrl:config.baseUrl,
         }
