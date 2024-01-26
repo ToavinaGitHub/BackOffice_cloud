@@ -18,6 +18,8 @@ import VenteParAns from './Components/Stats/VenteParAns';
 import AnnonceParAns from './Components/Stats/AnnonceParAns';
 import BestMarqueParAns from './Components/Stats/BestMarqueParAns';
 import PrixParAns from './Components/Stats/PrixParAns';
+import Commission from './Components/Object/Commission';
+import MarqueParAns from './Components/Stats/MarqueParAns';
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
           <Route exact path="/annonceParAns" element={<Layout><AnnonceParAns /></Layout>} />
           <Route exact path="/bestMarqueParAns" element={<Layout><BestMarqueParAns /></Layout>} />
           <Route exact path="/prixParAns" element={<Layout><PrixParAns /></Layout>} />
+          <Route exact path="/marqueParAns" element={<Layout><MarqueParAns /></Layout>} />
+          <Route exact path="/commission" element={<Layout><CrudObject  title="Commission" obj={<Commission />} /></Layout>} />
         </Routes>
    </BrowserRouter>
   );

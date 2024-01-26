@@ -47,6 +47,7 @@ const LeftNavBar = () => {
                             <a href="/CrudTransmission"><li>Transmission</li></a>
                             <a href="/CrudCarburant"><li>Carburant</li></a>
                             <a href="/moteurModele"><li>Moteur Modele</li></a>
+                            <a href="/commission"><li>Commission</li></a>
                         </ul>
                     )}
                 </li>
@@ -79,6 +80,7 @@ const LeftNavBar = () => {
                             <a href="/annonceParAns"><li>Annonce par Ans</li></a>
                             <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
                             <a href="/prixParAns"><li>Revenue par ans</li></a>
+                            <a href="/marqueParAns">Marque Vendu par ans</a>
                         </ul>
                     )}
                     
