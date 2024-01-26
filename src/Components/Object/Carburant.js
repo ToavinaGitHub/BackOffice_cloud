@@ -17,7 +17,7 @@ class Carburant extends Component {
       token: localStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////,
-      baseUrl: config.apiBaseUrl
+      baseUrl: config.baseUrl
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }

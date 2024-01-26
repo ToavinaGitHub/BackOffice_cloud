@@ -4,58 +4,61 @@ import sary from "../assets/Accounts/images/log.jpg";
 import config from "../../config.js";
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          email: "toavina@gmail.com",
-          password: "toavina",
-          baseUrl:config.baseUrl,
-        }
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-      
-      
-
-    handleInputChange = (event) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value });
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "toavina@gmail.com",
+      password: "toavina",
+      baseUrl: config.baseUrl,
+      loading: false, // Added loading state
     };
 
-    async handleSubmit(event){
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const email = formData.get("email");//
-        const password = formData.get("password");//
-        
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-        let url = this.state.baseUrl+'/api/v1/auth/authenticate';//
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
 
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
-            const data = await response.json();
-            
-            if (data) {
-                localStorage.setItem("token", data.token);
-                console.log(data);
-                window.location.href = "/CrudCategorie";
-                
-            }
-        } catch (error) {
-            var err = document.getElementById("error");
-            err.innerHTML = "Email ou mot de passe incorrect";
-        }
+  async handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    let url = this.state.baseUrl + "/api/v1/auth/authenticate";
+
+    try {
+      this.setState({ loading: true }); // Set loading to true before making the API call
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data) {
+        localStorage.setItem("token", data.token);
+        console.log(data);
+        window.location.href = "/CrudCategorie";
+      }
+    } catch (error) {
+      var err = document.getElementById("error");
+      err.innerHTML = "Email or password is incorrect";
+    } finally {
+      this.setState({ loading: false }); // Clear loading state regardless of success or failure
     }
+  }
+
   render() {
     console.log(this.state.baseUrl);
     return (
@@ -84,7 +87,9 @@ class LoginForm extends React.Component {
                   onChange={this.handleInputChange}
                   required
                 />
-                <button type="submit">Login</button>
+                <button type="submit" disabled={this.state.loading}>
+                  {this.state.loading ? "Logging in..." : "Login"}
+                </button>
               </form>
               <p id="error">...</p>
             </div>
