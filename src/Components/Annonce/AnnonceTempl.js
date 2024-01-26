@@ -2,6 +2,7 @@ import React from "react";
 import Annonce from "./Annonce";
 import "../assets/Annonce/AnnonceTempl.css";
 import config from "../../config.js";
+import ClipLoader from "react-spinners/ClipLoader";
 
 class AnnonceTempl extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class AnnonceTempl extends React.Component {
       annonces: [],
       token: localStorage.getItem("token"),
       baseUrl:config.baseUrl,
+      loading: true
     };
   }
 
@@ -25,10 +27,11 @@ class AnnonceTempl extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ annonces: data });
+        this.setState({ annonces: data,loading: false });
       })
       .catch((error) => {
         console.error("Fetch error:", error);
+        this.setState({ loading: false });
       });
   };
 
@@ -68,23 +71,32 @@ class AnnonceTempl extends React.Component {
     });
   };
   render() {
-    const { annonces } = this.state;
+    const { annonces,loading } = this.state;
     return (
       <>
         <div className="crud-container">
           <div className="crud-title">
             <strong>Annonces/{this.props.title}</strong>
           </div>
-          <div className="allAnnonces">
-            {annonces.map((annonce, index) => (
-              <Annonce
-                key={index}
-                {...annonce}
-                onAccept={() => this.handleAccept(annonce.idAnnonce)} // Utiliser une fonction fléchée ici
-                onRefuse={() => this.handleRefuse(annonce.idAnnonce)}
-              />
-            ))}
-          </div>
+          {loading ? (
+             <ClipLoader
+               color={'#182d56'}
+               loading={loading}
+               size={100}
+               id="loader"
+             />
+          ) : (
+            <div className="allAnnonces">
+              {annonces.map((annonce, index) => (
+                <Annonce
+                  key={index}
+                  {...annonce}
+                  onAccept={() => this.handleAccept(annonce.idAnnonce)}
+                  onRefuse={() => this.handleRefuse(annonce.idAnnonce)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </>
     );
