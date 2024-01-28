@@ -5,9 +5,15 @@ import "../assets/Annonce/Annonce.css";
 class Annonce extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentImage: this.props.saryAnnonces[0].sary,
-    };
+    if (props.saryAnnonces.length === 0) {
+      this.state = {
+        currentImage: 'chemin/vers/image-par-defaut.jpg',
+      };
+    } else {
+      this.state = {
+        currentImage: props.saryAnnonces[0].sary,
+      };
+    }
   }
 
   handleImageClick = (newImage) => {

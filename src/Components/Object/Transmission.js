@@ -17,11 +17,33 @@ class Transmission extends Component {
       token: localStorage.getItem("token"),
       isModif:0,
       champButton:"Inserer",
-      baseUrl: config.baseUrl
-
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allTrans, searchTerm } = this.state;
+    
+      const filteredTrans = allTrans.filter((trans) =>
+        trans.nomTransmission.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentTrans: filteredTrans,
+        totalPages: Math.abs(Math.ceil(filteredTrans.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredTrans.length,
+      });
+    };
   
   componentDidMount() {
     this.fetchTransmissionData();
@@ -66,9 +88,7 @@ class Transmission extends Component {
 
   
   
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+ 
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -141,6 +161,17 @@ class Transmission extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de transmission..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

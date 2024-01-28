@@ -17,12 +17,16 @@ class Categorie extends Component {
       token: localStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////
-      baseUrl: config.baseUrl
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
 
   }
   
+
+  
+
   componentDidMount() {
     this.fetchCategorieData(); ///////
   }
@@ -65,10 +69,27 @@ class Categorie extends Component {
     
     this.setState({ currentPage, currentCategorie, totalPages }); ///////
   };
-  
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allCategorie, searchTerm } = this.state;
+      // Filter carburants based on search term
+      const filteredCategorie = allCategorie.filter((categorie) =>
+        categorie.nomCategorie.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentCategorie: filteredCategorie,
+        totalPages: Math.abs(Math.ceil(filteredCategorie.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredCategorie.length,
+      });
+    };
   async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -146,6 +167,17 @@ class Categorie extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de categorie..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

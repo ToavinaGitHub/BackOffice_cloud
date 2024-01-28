@@ -17,11 +17,34 @@ class Moteur extends Component {
       token: localStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////
-      baseUrl: config.baseUrl
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allMoteur, searchTerm } = this.state;
+    
+      const filteredMoteur = allMoteur.filter((moteur) =>
+        moteur.nomMoteur.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentMoteur: filteredMoteur,
+        totalPages: Math.abs(Math.ceil(filteredMoteur.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredMoteur.length,
+      });
+    };
+
   componentDidMount() {
     this.fetchMoteurData(); ///////
   }
@@ -62,11 +85,6 @@ class Moteur extends Component {
     
     this.setState({ currentPage, currentMoteur, totalPages }); ///////
   };
-
-  
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -139,6 +157,17 @@ class Moteur extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de moteur..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

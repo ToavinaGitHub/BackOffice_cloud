@@ -19,15 +19,40 @@ class Modele extends Component {
       categorie:'',
       token: localStorage.getItem("token"),
       baseUrl: config.baseUrl,
+      searchTerm:""
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allModele, searchTerm } = this.state;
+      // Filter carburants based on search term
+      const filteredModele = allModele.filter((modele) =>
+        modele.nomModele.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentModele: filteredModele,
+        totalPages: Math.abs(Math.ceil(filteredModele.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredModele.length,
+      });
+    };
   
   componentDidMount() {
     this.fetchModeleData(); ///////
     this.fetchMarqueData();
     this.fetchCategorieData();
   }
+
+
 
   fetchModeleData = () => { ///////
     fetch(this.state.baseUrl+"/modeles",{
@@ -94,9 +119,7 @@ class Modele extends Component {
     this.setState({ currentPage, currentModele, totalPages }); ///////
   };
 
-    handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+  
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -162,6 +185,17 @@ class Modele extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de modele..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Modele</th>
