@@ -76,11 +76,12 @@ const LeftNavBar = () => {
                     
                     {activeDropdown === 'stats' && (
                         <ul className="sub-menu">
-                            <a href="/venteParAns"><li>Vente par Ans</li></a>
-                            <a href="/annonceParAns"><li>Annonce par Ans</li></a>
-                            <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
-                            <a href="/prixParAns"><li>Revenue par ans</li></a>
-                            <a href="/marqueParAns">Marque Vendu par ans</a>
+                            <a href="/venteParAns"><li>Vente par an</li></a>
+                            <a href="/annonceParAns"><li>Annonce par an</li></a>
+                            <a href="/marqueParAns">Marque Vendu par an</a>
+                            <a href="/prixParAns"><li>Revenue par an</li></a>
+                            <a href="/bestMarqueParAns"><li>Marque par an</li></a>
+                        
                         </ul>
                     )}
                     

@@ -161,7 +161,7 @@ class Categorie extends Component {
       <>
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
-            <label>Ctegorie</label>
+            <label>Categorie</label>
             <input name="nomCategorie" value={this.state.nomCategorie} onChange={this.handleChange}/>
             <button type="submit">{this.state.champButton}</button>
           </form>
