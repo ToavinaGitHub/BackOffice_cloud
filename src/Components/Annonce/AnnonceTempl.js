@@ -9,7 +9,7 @@ class AnnonceTempl extends React.Component {
     super(props);
     this.state = {
       annonces: [],
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl:config.baseUrl,
       loading: true
     };

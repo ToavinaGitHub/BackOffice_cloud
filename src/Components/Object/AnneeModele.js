@@ -17,7 +17,7 @@ class AnneeModele extends Component {
       modele:'',
       currentModele:'',
       anneeCurrentModele:[],
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl: config.baseUrl,
     };
     this.handleSubmit = this.handleSubmit.bind(this);//

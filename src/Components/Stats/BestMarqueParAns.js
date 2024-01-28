@@ -12,18 +12,20 @@ class BestMarqueParAns extends Component {
       selectedNameMonth: 0,
       selectedNumeroMonth: 0,
       dataY: [],
-      token: localStorage.getItem("token"),
-      baseUrl: config.baseUrl
+      token: sessionStorage.getItem("token"),
+      baseUrl: config.baseUrl,
+      marques:[]
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }
 
   componentDidMount() {
     this.fetchYData();
+    this.fetchMarqueData();
   }
 
   fetchYData = () => {
-    fetch(this.state.baseUrl+"/bestMarque?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/bestMarqueCount?annee=" + this.state.selectedYear,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -31,6 +33,23 @@ class BestMarqueParAns extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({ dataY: data }, () => {
+          this.chart.render();
+        });
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  };
+
+  fetchMarqueData = () => {
+    fetch(this.state.baseUrl+"/bestMarque?annee=" + this.state.selectedYear,{
+      headers: {
+        'Authorization': `Bearer ${this.state.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({ marques: data }, () => {
           this.chart.render();
         });
       })
@@ -86,7 +105,7 @@ class BestMarqueParAns extends Component {
       },
       data: [
         {
-          type: "spline",
+          type: "column",
           name: "Vente par marque",
           showInLegend: true,
           xValueFormatString: "MMMM",
@@ -94,6 +113,7 @@ class BestMarqueParAns extends Component {
           dataPoints: this.state.dataY.map((value, index) => ({
             x: new Date(this.state.selectedYear, index, 1),
             y: value,
+            label : this.state.marques[index],
           })),
           click: (e) => {
             var monthNumber = e.dataPoint.x.getMonth() + 1;

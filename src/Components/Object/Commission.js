@@ -15,7 +15,7 @@ class Commission extends Component {
       pageLimit:3,
       valeurCommission:'',
       idCommission:'',//////////////////////////////////////
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////
       baseUrl: config.baseUrl,

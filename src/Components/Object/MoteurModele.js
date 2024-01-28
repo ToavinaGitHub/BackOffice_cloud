@@ -18,7 +18,7 @@ class MoteurModele extends Component {
       modele:'',
       currentModele:'',
       MoteurCurrentModele:[],
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl: config.baseUrl,
     };
     this.handleSubmit = this.handleSubmit.bind(this);//

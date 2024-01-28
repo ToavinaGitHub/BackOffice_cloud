@@ -17,7 +17,7 @@ class Modele extends Component {
       nomModele:'',
       marque:'',
       categorie:'',
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl: config.baseUrl,
       searchTerm:""
     };

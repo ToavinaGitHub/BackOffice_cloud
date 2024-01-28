@@ -12,7 +12,7 @@ class PrixParAns extends Component {
       selectedNumeroMonth: 0,
       dataY: [],
       total : 0,
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);

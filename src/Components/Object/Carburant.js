@@ -14,7 +14,7 @@ class Carburant extends Component {
       pageLimit:3,
       nomCarburant:'',
       idCarburant:'',
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////,
       baseUrl: config.baseUrl,

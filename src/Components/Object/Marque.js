@@ -14,7 +14,7 @@ class Marque extends Component {
       pageLimit:3,
       nomMarque:'',
       idMarque:'',
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////
       baseUrl: config.baseUrl,

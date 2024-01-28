@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import "../assets/Annonce/Annonce.css";
 
+import bm from "../assets/Annonce/bm.jpg";
 
 class Annonce extends Component {
   constructor(props) {
     super(props);
     if (props.saryAnnonces.length === 0) {
       this.state = {
-        currentImage: 'chemin/vers/image-par-defaut.jpg',
+        currentImage: bm,
       };
     } else {
+      // Si saryAnnonces n'est pas vide, utilisez la première image de saryAnnonces
       this.state = {
         currentImage: props.saryAnnonces[0].sary,
       };

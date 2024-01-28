@@ -14,7 +14,7 @@ class Categorie extends Component {
       pageLimit:3,
       nomCategorie:'',
       idCategorie:'',//////////////////////////////////////
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
       champButton:"Inserer",////////////////////////////////
       baseUrl: config.baseUrl,

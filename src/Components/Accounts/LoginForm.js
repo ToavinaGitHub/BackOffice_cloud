@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
       const data = await response.json();
       
       if (data) {
-        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
         console.log(data);
         window.location.href = "/CrudCategorie";
       }

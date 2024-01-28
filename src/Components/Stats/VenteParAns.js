@@ -11,7 +11,7 @@ class VenteParAns extends Component {
       selectedNameMonth: 0,
       selectedNumeroMonth: 0,
       dataY: [],
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       baseUrl: config.baseUrl
 
     };
