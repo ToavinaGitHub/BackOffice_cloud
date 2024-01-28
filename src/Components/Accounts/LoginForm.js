@@ -7,8 +7,8 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "toavina@gmail.com",
-      password: "toavina",
+      email: "admin@gmail.com",
+      password: "admin",
       baseUrl: config.baseUrl,
       loading: false, // Added loading state
     };
