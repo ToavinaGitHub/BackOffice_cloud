@@ -15,7 +15,6 @@ const LeftNavBar = () => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("token");
-        localStorage.removeItem("cachedAnnonces");
         window.location.href = "/"; 
       };
 
