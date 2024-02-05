@@ -18,9 +18,9 @@ class Annonce extends Component {
     }
   }
 
-  handleImageClick = (newImage) => {
-    this.setState({ currentImage: newImage });
-  };
+    handleImageClick = (newImage) => {
+      this.setState({ currentImage: newImage });
+    };
 
   render() {
     const {
@@ -42,17 +42,16 @@ class Annonce extends Component {
 
   
 
-   
     return (
       <div className="annonce-card">
         <div className="image-section">
-          <img className="main-image" src={`data:image/jpeg;base64, ${this.state.currentImage}`} alt="Main" />
+          <img className="main-image" src={this.state.currentImage} alt="Main" />
           <div className="other-images">
             {saryAnnonces.map((image, index) => (
               <img
                 key={index}
                 className="other-image"
-                src={`data:image/jpeg;base64, ${image.sary}`}
+                src={image.sary}
                 alt={`Other ${index}`}
                 onClick={() => this.handleImageClick(image.sary)}
               />
