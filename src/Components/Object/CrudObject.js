@@ -1,7 +1,7 @@
 import React from "react";
 
 import "../assets/Object/CrudObject.css";
-import Categorie from "./Categorie";
+
 class CrudObject extends React.Component{
     constructor(props){
         super(props);
@@ -16,7 +16,7 @@ class CrudObject extends React.Component{
             <>
                 <div className="crud-container">
                     <div className="crud-title">
-                        <a><strong>CRUD>Object>{this.state.title}</strong></a>
+                        <strong>CRUD/Object/{this.state.title}</strong>
                     </div>
                     <div>
                         {this.props.obj}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Modele extends Component {
   constructor(props) {
     super(props);
@@ -17,10 +17,34 @@ class Modele extends Component {
       nomModele:'',
       marque:'',
       categorie:'',
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
+      baseUrl: config.baseUrl,
+      searchTerm:""
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allModele, searchTerm } = this.state;
+      // Filter carburants based on search term
+      const filteredModele = allModele.filter((modele) =>
+        modele.nomModele.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentModele: filteredModele,
+        totalPages: Math.abs(Math.ceil(filteredModele.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredModele.length,
+      });
+    };
   
   componentDidMount() {
     this.fetchModeleData(); ///////
@@ -28,8 +52,10 @@ class Modele extends Component {
     this.fetchCategorieData();
   }
 
+
+
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles",{
+    fetch(this.state.baseUrl+"/modeles",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -48,7 +74,7 @@ class Modele extends Component {
       });
   };
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques",{
+    fetch(this.state.baseUrl+"/marques",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -62,7 +88,7 @@ class Modele extends Component {
       });
   };
   fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories",{
+    fetch(this.state.baseUrl+"/categories",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -93,9 +119,7 @@ class Modele extends Component {
     this.setState({ currentPage, currentModele, totalPages }); ///////
   };
 
-    handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+  
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -104,7 +128,7 @@ class Modele extends Component {
         const categ = formData.get("categorie");//
         
 
-        let url ='http://localhost:8080/modele?nom='+nomM+'&idCategorie='+categ+'&idMarque='+marq
+        let url =this.state.baseUrl+'/modele?nom='+nomM+'&idCategorie='+categ+'&idMarque='+marq
 
         await fetch(url , {
             method:'POST',
@@ -122,7 +146,7 @@ class Modele extends Component {
         });
     }
     async remove(id){
-        let url = 'http://localhost:8080/modele/'+id; //
+        let url = this.state.baseUrl+'/modele/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -161,6 +185,17 @@ class Modele extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de modele..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Modele</th>

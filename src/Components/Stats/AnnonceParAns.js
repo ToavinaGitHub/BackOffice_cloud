@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
-
+import config from "../../config.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-class BestMarqueParAns extends Component {
+class AnnonceParAns extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +11,8 @@ class BestMarqueParAns extends Component {
       selectedNameMonth: 0,
       selectedNumeroMonth: 0,
       dataY: [],
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
+      baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }
@@ -21,7 +22,7 @@ class BestMarqueParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/bestMarque?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/Annonce/statNbAnnonceAnnee?annee=" + this.state.selectedYear,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -58,7 +59,7 @@ class BestMarqueParAns extends Component {
       theme: "light2",
       animationEnabled: true,
       title: {
-        text: "Meilleurs marque pendant l'année " + this.state.selectedYear,
+        text: "Annonce pendant l'année " + this.state.selectedYear,
       },
       subtitles: [{
         text: "Move the cursor over the dots to see the statistics per month",
@@ -69,7 +70,7 @@ class BestMarqueParAns extends Component {
         intervalType: "month",
       },
       axisY: {
-        title: "Vente par Marque",
+        title: "Annonce créée",
         titleFontColor: "#C32F27",
         lineColor: "#C32F27",
         labelFontColor: "#C32F27",
@@ -85,10 +86,10 @@ class BestMarqueParAns extends Component {
       data: [
         {
           type: "spline",
-          name: "Vente par marque",
+          name: "Annonce créée",
           showInLegend: true,
           xValueFormatString: "MMMM",
-          yValueFormatString: "#,##0 ",
+          yValueFormatString: "#,##0 Unités",
           dataPoints: this.state.dataY.map((value, index) => ({
             x: new Date(this.state.selectedYear, index, 1),
             y: value,
@@ -116,4 +117,4 @@ class BestMarqueParAns extends Component {
   }
 }
 
-export default BestMarqueParAns;
+export default AnnonceParAns;

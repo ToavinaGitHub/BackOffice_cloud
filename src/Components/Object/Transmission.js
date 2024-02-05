@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Transmission extends Component {
   constructor(props) {
     super(props);
@@ -14,19 +14,43 @@ class Transmission extends Component {
       pageLimit:3,
       nomTransmission:'',
       idTransmission:'',
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
       isModif:0,
-      champButton:"Inserer"
+      champButton:"Inserer",
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allTrans, searchTerm } = this.state;
+    
+      const filteredTrans = allTrans.filter((trans) =>
+        trans.nomTransmission.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentTrans: filteredTrans,
+        totalPages: Math.abs(Math.ceil(filteredTrans.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredTrans.length,
+      });
+    };
   
   componentDidMount() {
     this.fetchTransmissionData();
   }
 
   fetchTransmissionData = () => {
-    fetch("http://localhost:8080/transmissions",{
+    fetch(this.state.baseUrl+"/transmissions",{
       headers: {
           'Authorization': `Bearer ${this.state.token}`,
         }
@@ -64,9 +88,7 @@ class Transmission extends Component {
 
   
   
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+ 
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -74,8 +96,8 @@ class Transmission extends Component {
         
 
 
-        if(this.state.isModif==0){
-          let url ='http://localhost:8080/transmission?nom='+nomTransmission;//
+        if(this.state.isModif === 0){
+          let url =this.state.baseUrl+'/transmission?nom='+nomTransmission;//
 
           await fetch(url , {
               method:'POST',
@@ -90,8 +112,8 @@ class Transmission extends Component {
               this.setState({ allMoteur: [...this.state.allTrans, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif==1){
-           let url ='http://localhost:8080/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
+        }else if(this.state.isModif === 1){
+           let url =this.state.baseUrl+'/transmission/'+this.state.idTransmission+'?nom='+this.state.nomTransmission;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -110,7 +132,7 @@ class Transmission extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/transmission/'+id; //
+        let url = this.state.baseUrl+'/transmission/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -139,6 +161,17 @@ class Transmission extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de transmission..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 import "../assets/Annonce/Annonce.css";
+
 import bm from "../assets/Annonce/bm.jpg";
 
 class Annonce extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentImage: this.props.saryAnnonces[0].sary,
-    };
+    if (props.saryAnnonces.length === 0) {
+      this.state = {
+        currentImage: bm,
+      };
+    } else {
+      // Si saryAnnonces n'est pas vide, utilisez la première image de saryAnnonces
+      this.state = {
+        currentImage: props.saryAnnonces[0].sary,
+      };
+    }
   }
 
-  handleImageClick = (newImage) => {
-    this.setState({ currentImage: newImage });
-  };
+    handleImageClick = (newImage) => {
+      this.setState({ currentImage: newImage });
+    };
 
   render() {
     const {
@@ -21,10 +29,7 @@ class Annonce extends Component {
       kilometrage,
       nbPorte,
       prixDemande,
-      prixVente,
-      etat,
       dateAnnonce,
-      commission,
       utilisateur,
       transmission,
       carburant,
@@ -35,20 +40,18 @@ class Annonce extends Component {
     } = this.props;
     
 
-    const { currentImage } = this.state;
+  
 
-
-   
     return (
       <div className="annonce-card">
         <div className="image-section">
-          <img className="main-image" src={`data:image/jpeg;base64, ${this.state.currentImage}`} alt="Main" />
+          <img className="main-image" src={this.state.currentImage} alt="Main" />
           <div className="other-images">
             {saryAnnonces.map((image, index) => (
               <img
                 key={index}
                 className="other-image"
-                src={`data:image/jpeg;base64, ${image.sary}`}
+                src={image.sary}
                 alt={`Other ${index}`}
                 onClick={() => this.handleImageClick(image.sary)}
               />

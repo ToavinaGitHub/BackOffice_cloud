@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Categorie extends Component {
   constructor(props) {
     super(props);
@@ -14,20 +14,27 @@ class Categorie extends Component {
       pageLimit:3,
       nomCategorie:'',
       idCategorie:'',//////////////////////////////////////
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
 
   }
   
+
+  
+
   componentDidMount() {
     this.fetchCategorieData(); ///////
   }
 
   fetchCategorieData = () => { ///////
-    fetch("http://localhost:8080/categories" , {
+
+    console.log(this.state.token);
+    fetch(this.state.baseUrl+"/categories" , {
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -62,10 +69,27 @@ class Categorie extends Component {
     
     this.setState({ currentPage, currentCategorie, totalPages }); ///////
   };
-  
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allCategorie, searchTerm } = this.state;
+      // Filter carburants based on search term
+      const filteredCategorie = allCategorie.filter((categorie) =>
+        categorie.nomCategorie.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentCategorie: filteredCategorie,
+        totalPages: Math.abs(Math.ceil(filteredCategorie.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredCategorie.length,
+      });
+    };
   async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -74,7 +98,7 @@ class Categorie extends Component {
         console.log(this.state.isModif+"----------");
 
         if(this.state.isModif === 0){
-          let url ='http://localhost:8080/categorie?nom='+nomCateg;//
+          let url =this.state.baseUrl+'/categorie?nom='+nomCateg;//
 
           await fetch(url , {
               method:'POST',
@@ -90,7 +114,7 @@ class Categorie extends Component {
               window.location.reload();
           });
         }else if(this.state.isModif === 1){
-            let url ='http://localhost:8080/categorie/'+this.state.idCategorie+'?nom='+this.state.nomCategorie;//
+            let url =this.state.baseUrl+'/categorie/'+this.state.idCategorie+'?nom='+this.state.nomCategorie;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -111,7 +135,7 @@ class Categorie extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/categorie/'+id; //
+        let url = this.state.baseUrl+'/categorie/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -137,12 +161,23 @@ class Categorie extends Component {
       <>
         <div className="insertion">
           <form className="crud-form" onSubmit={this.handleSubmit}>
-            <label>Marque</label>
+            <label>Categorie</label>
             <input name="nomCategorie" value={this.state.nomCategorie} onChange={this.handleChange}/>
             <button type="submit">{this.state.champButton}</button>
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de categorie..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

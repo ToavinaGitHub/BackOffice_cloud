@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Paging from "../Paging";
+import config from "../../config.js";
 
 class AnneeModele extends Component {
   constructor(props) {
@@ -17,7 +17,8 @@ class AnneeModele extends Component {
       modele:'',
       currentModele:'',
       anneeCurrentModele:[],
-      token: localStorage.getItem("token")
+      token: sessionStorage.getItem("token"),
+      baseUrl: config.baseUrl,
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
@@ -28,7 +29,7 @@ class AnneeModele extends Component {
 
 
   fetchModeleData = () => { ///////
-    fetch("http://localhost:8080/modeles",{
+    fetch(this.state.baseUrl+"/modeles",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -43,7 +44,7 @@ class AnneeModele extends Component {
   };
 
   fetchAnneDataByIdModele = (idModele) => { ///////
-    fetch("http://localhost:8080/anneeModeles?idModele="+idModele,{
+    fetch(this.state.baseUrl+"/anneeModeles?idModele="+idModele,{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -72,7 +73,7 @@ class AnneeModele extends Component {
         const modele = formData.get("modele");//
         
 
-        let url ='http://localhost:8080/anneeModele?annee='+annee+'&idModele='+modele
+        let url =this.state.baseUrl+'/anneeModele?annee='+annee+'&idModele='+modele
 
         await fetch(url , {
             method:'POST',

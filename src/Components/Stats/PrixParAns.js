@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
-
+import config from "../../config.js";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class PrixParAns extends Component {
@@ -12,7 +12,8 @@ class PrixParAns extends Component {
       selectedNumeroMonth: 0,
       dataY: [],
       total : 0,
-      token: localStorage.getItem("token"),
+      token: sessionStorage.getItem("token"),
+      baseUrl: config.baseUrl
     };
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
   }
@@ -23,7 +24,7 @@ class PrixParAns extends Component {
   }
 
   fetchYData = () => {
-    fetch("http://localhost:8080/statPrixMois?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/statPrixMois?annee=" + this.state.selectedYear,{
         headers: {
           'Authorization': `Bearer ${this.state.token}`,
         },
@@ -40,7 +41,7 @@ class PrixParAns extends Component {
   };
 
   fetchTotal = () => {
-    fetch("http://localhost:8080/revenuAnnuel?annee=" + this.state.selectedYear,{
+    fetch(this.state.baseUrl+"/revenuAnnuel?annee=" + this.state.selectedYear,{
         headers: {
           'Authorization': `Bearer ${this.state.token}`,
         },

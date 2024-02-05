@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Moteur extends Component {
   constructor(props) {
     super(props);
@@ -14,19 +14,43 @@ class Moteur extends Component {
       pageLimit:3,
       nomMoteur:'',
       idMoteur:'',
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allMoteur, searchTerm } = this.state;
+    
+      const filteredMoteur = allMoteur.filter((moteur) =>
+        moteur.nomMoteur.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentMoteur: filteredMoteur,
+        totalPages: Math.abs(Math.ceil(filteredMoteur.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredMoteur.length,
+      });
+    };
+
   componentDidMount() {
     this.fetchMoteurData(); ///////
   }
 
   fetchMoteurData = () => { ///////
-    fetch("http://localhost:8080/moteurs",{
+    fetch(this.state.baseUrl+"/moteurs",{
       headers: {
           'Authorization': `Bearer ${this.state.token}`,
         }
@@ -61,19 +85,14 @@ class Moteur extends Component {
     
     this.setState({ currentPage, currentMoteur, totalPages }); ///////
   };
-
-  
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
         const nomMoteur = formData.get("nomMoteur");//
         
 
-        if(this.state.isModif==0){ 
-          let url ='http://localhost:8080/moteur?nom='+nomMoteur;//
+        if(this.state.isModif === 0){ 
+          let url =this.state.baseUrl+'/moteur?nom='+nomMoteur;//
 
           await fetch(url , {
               method:'POST',
@@ -89,8 +108,8 @@ class Moteur extends Component {
               window.location.reload();
           });
         }
-        else if(this.state.isModif==1){
-          let url ='http://localhost:8080/moteur/'+this.state.idMoteur+'?nom='+this.state.nomMoteur;//
+        else if(this.state.isModif === 1){
+          let url =this.state.baseUrl+'/moteur/'+this.state.idMoteur+'?nom='+this.state.nomMoteur;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -109,7 +128,7 @@ class Moteur extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/moteur/'+id; //
+        let url =this.state.baseUrl+'/moteur/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -138,6 +157,17 @@ class Moteur extends Component {
           </form>
         </div>
         <div className="liste">
+        <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de moteur..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

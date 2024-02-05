@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import '../assets/Accueil/LeftNavBar.css';
-import "../assets/bootstrap.min.css";
+import "../assets/bootstrap.css";
 
 import sary from "../assets/Accounts/images/log.jpg";
 
@@ -14,7 +14,8 @@ const LeftNavBar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        localStorage.removeItem("cachedAnnonces");
         window.location.href = "/"; 
       };
 
@@ -25,7 +26,7 @@ const LeftNavBar = () => {
                 <li className='li-head logo'>
                         <div >
                             <i className="fas fa-scroll"></i>
-                            <span><img src={sary} className="logo-img"></img></span>
+                            <span><img src={sary} alt={"logo"} className="logo-img"></img></span>
                             <span>Bônôkany</span>
                         </div>
                 </li>
@@ -47,6 +48,7 @@ const LeftNavBar = () => {
                             <a href="/CrudTransmission"><li>Transmission</li></a>
                             <a href="/CrudCarburant"><li>Carburant</li></a>
                             <a href="/moteurModele"><li>Moteur Modele</li></a>
+                            <a href="/commission"><li>Commission</li></a>
                         </ul>
                     )}
                 </li>
@@ -75,10 +77,12 @@ const LeftNavBar = () => {
                     
                     {activeDropdown === 'stats' && (
                         <ul className="sub-menu">
-                            <a href="/venteParAns"><li>Vente par Ans</li></a>
-                            <a href="/annonceParAns"><li>Annonce par Ans</li></a>
-                            <a href="/bestMarqueParAns"><li>Marque par ans</li></a>
-                            <a href="/prixParAns"><li>Revenue par ans</li></a>
+                            <a href="/venteParAns"><li>Vente par an</li></a>
+                            <a href="/annonceParAns"><li>Annonce par an</li></a>
+                            <a href="/marqueParAns">Marque Vendu par an</a>
+                            <a href="/prixParAns"><li>Revenue par an</li></a>
+                            <a href="/bestMarqueParAns"><li>Marque par an</li></a>
+                        
                         </ul>
                     )}
                     

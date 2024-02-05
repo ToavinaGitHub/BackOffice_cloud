@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Carburant extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +14,14 @@ class Carburant extends Component {
       pageLimit:3,
       nomCarburant:'',
       idCarburant:'',
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////,
+      baseUrl: config.baseUrl,
+      searchTerm: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
+   
   }
   
   componentDidMount() {
@@ -26,7 +29,7 @@ class Carburant extends Component {
   }
 
   fetchCarburantData = () => { 
-    fetch("http://localhost:8080/carburants",{
+    fetch(this.state.baseUrl+"/carburants",{
       headers: {
         'Authorization': `Bearer ${this.state.token}`,
       },
@@ -61,17 +64,37 @@ class Carburant extends Component {
     
     this.setState({ currentPage, currentCarburant, totalPages }); ///////
   };
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allCarburant, searchTerm } = this.state;
+  
+      // Filter carburants based on search term
+      const filteredCarburant = allCarburant.filter((carburant) =>
+        carburant.nomCarburant.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentCarburant: filteredCarburant,
+        totalPages: Math.abs(Math.ceil(filteredCarburant.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredCarburant.length,
+      });
+    };
+  
 
-    handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
         const nomCarb = formData.get("nomCarburant");//
         
-        if(this.state.isModif == 0){
-          let url ='http://localhost:8080/carburant?nom='+nomCarb;//
+        if(this.state.isModif === 0){
+          let url =this.state.baseUrl+'/carburant?nom='+nomCarb;//
 
 
           await fetch(url , {
@@ -88,8 +111,8 @@ class Carburant extends Component {
               this.setState({ allCarburant: [...this.state.allCarburant, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif == 1){
-          let url ='http://localhost:8080/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
+        }else if(this.state.isModif  ===  1){
+          let url =this.state.baseUrl+'/carburant/'+this.state.idCarburant+'?nom='+this.state.nomCarburant;//
           await fetch(url , {
               method:'PUT',
               headers: {
@@ -109,7 +132,7 @@ class Carburant extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/carburant/'+id; //
+        let url = this.state.baseUrl+'/carburant/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -127,6 +150,7 @@ class Carburant extends Component {
       this.setState({ isModif:1,champButton:"Modifier",nomCarburant:item.nomCarburant,idCarburant:item.idCarburant });
     }
 
+    
   render() {
     return (
       <>
@@ -138,6 +162,17 @@ class Carburant extends Component {
           </form>
         </div>
         <div className="liste">
+          <div className="search-bar">
+            <label>Search:</label>
+            <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de carburant..."
+            />
+           
+          </div>
           <table className="table">
               <tr>
                 <th>Id</th>

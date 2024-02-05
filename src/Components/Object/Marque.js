@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Paging from "../Paging";
-
+import config from "../../config.js";
 class Marque extends Component {
   constructor(props) {
     super(props);
@@ -14,19 +14,44 @@ class Marque extends Component {
       pageLimit:3,
       nomMarque:'',
       idMarque:'',
-      token: localStorage.getItem("token"),///////////////////
+      token: sessionStorage.getItem("token"),///////////////////
       isModif:0,//////////////////////////////////
-      champButton:"Inserer"////////////////////////////////
+      champButton:"Inserer",////////////////////////////////
+      baseUrl: config.baseUrl,
+      searchTerm:""
     };
     this.handleSubmit = this.handleSubmit.bind(this);//
   }
   
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value }, () => {
+      this.handleSearch(); // Trigger search as the user types
+    });
+  };
+  handleSearch = () => {
+      const { allMarque, searchTerm } = this.state;
+      // Filter carburants based on search term
+      const filteredMarque = allMarque.filter((marque) =>
+        marque.nomMarque.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+  
+      // Update the state with filtered carburants
+      this.setState({
+        currentMarque: filteredMarque,
+        totalPages: Math.abs(Math.ceil(filteredMarque.length / this.state.pageLimit)),
+        currentPage: 1,
+        totalItems: filteredMarque.length,
+      });
+    };
+
   componentDidMount() {
     this.fetchMarqueData(); ///////
   }
 
   fetchMarqueData = () => { ///////
-    fetch("http://localhost:8080/marques",{
+    fetch(this.state.baseUrl+"/marques",{
        headers: {
       'Authorization': `Bearer ${this.state.token}`,
       }
@@ -62,17 +87,14 @@ class Marque extends Component {
     this.setState({ currentPage, currentMarque, totalPages }); ///////
   };
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });//
-    }
     async handleSubmit(event){
         event.preventDefault();
         const formData = new FormData(event.target);
         const nomMarque = formData.get("nomMarque");//
         
 
-        if(this.state.isModif==0){
-          let url ='http://localhost:8080/marque?nom='+nomMarque;//
+        if(this.state.isModif === 0){
+          let url =this.state.baseUrl+'/marque?nom='+nomMarque;//
 
           await fetch(url , {
               method:'POST',
@@ -87,8 +109,8 @@ class Marque extends Component {
               this.setState({ allMarque: [...this.state.allMarque, newItem] });//
               window.location.reload();
           });
-        }else if(this.state.isModif==1){
-          let url ='http://localhost:8080/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
+        }else if(this.state.isModif === 1){
+          let url =this.state.baseUrl+'/marque/'+this.state.idMarque+'?nom='+this.state.nomMarque;//
             await fetch(url , {
                 method:'PUT',
                 headers: {
@@ -108,7 +130,7 @@ class Marque extends Component {
     }
     async remove(id){
         console.log("miditra");
-        let url = 'http://localhost:8080/marque/'+id; //
+        let url = this.state.baseUrl+'/marque/'+id; //
         await fetch(url,{
             method:'DELETE',
             headers: {
@@ -140,6 +162,14 @@ class Marque extends Component {
           </form>
         </div>
         <div className="liste">
+          <input
+              type="text"
+              value={this.state.searchTerm}
+              onChange={this.handleChange}
+              name="searchTerm"
+              placeholder="Recherche de marque..."
+            />
+           
           <table className="table">
               <tr>
                 <th>Id</th>
